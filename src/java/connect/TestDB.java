@@ -4,12 +4,16 @@
  */
 package connect;
 
+import model.UserDAO;
+
 
 /**
  *
  * @author bebet
  */
 public class TestDB {
-     public static void main(String[] args) {
+    public static void main(String[] args) {
+        UserDAO dao = new UserDAO();
+        System.out.println(dao.getUsers());
     }
 }

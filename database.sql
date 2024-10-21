@@ -15,6 +15,11 @@ CREATE TABLE Users (
     avt VARCHAR(255) DEFAULT NULL
 );
 select *  from Users
+select userName,password,roles from Users
+select userName,password,roles from Users 
+                    where userName = 'sum' and password = '123'
+insert into Users values ('se','JohnSon','123','johnse@gmail.com','user' ,'avt');
+insert into Users values ('sum','JohnSon','123','sum@gmail.com','user' ,'avt');
 insert into Users values ('se','JohnSon','123','johnse@gmail.com','user' ,'avt');
 -- T?o b?ng Post
 CREATE TABLE Post (
