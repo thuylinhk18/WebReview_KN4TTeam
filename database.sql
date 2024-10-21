@@ -14,7 +14,8 @@ CREATE TABLE Users (
     roles VARCHAR(50) DEFAULT 'user',
     avt VARCHAR(255) DEFAULT NULL
 );
-
+select *  from Users
+insert into Users values ('se','JohnSon','123','johnse@gmail.com','user' ,'avt');
 -- T?o b?ng Post
 CREATE TABLE Post (
     post_id INT IDENTITY(1,1) PRIMARY KEY,
