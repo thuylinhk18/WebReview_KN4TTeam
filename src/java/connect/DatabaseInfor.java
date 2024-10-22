@@ -12,5 +12,5 @@ public interface DatabaseInfor {
      public static final String driverName = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
     public static final String url = "jdbc:sqlserver://localhost:1433;databaseName=travel_review_website;encrypt=true;trustServerCertificate=true;hostNameInCertificate=*.database.windows.net;loginTimeout=30;";
     public static final String user = "sa";
-    public static final String pass = "iamlinh";
+    public static final String pass = "admin";
 }
