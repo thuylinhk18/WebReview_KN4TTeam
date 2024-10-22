@@ -16,16 +16,17 @@
         <h1>Login form</h1>
         <h3 style="color: red">${requestScope.message}</h3>
         <c:set var="cookie" value="${pageContext.request.cookies}"/>
+
         <form action="LoginServlet" method="post">
             Username: <input type="text" name="username" 
-                             value="${cookie.nameCookie.value}"
+                             value="${cookie.name.value}"
                              required /><br/>
-            
-            Password: <input type="text" name="password" 
-                             value="${cookie.passCookie.value}"
+
+            Password: <input type="password" name="password" 
+                             value="${cookie.pass.value}"
                              required /><br/>
             <input type="checkbox" 
-                   ${(cookie.remCookie!=null?'checked':'')}
+                   ${(cookie.rem!=null?'checked':'')}
                    name="rememberMe" value="ON"/> Remember me <br/>
             <input type="submit" value="Login"/>
         </form>

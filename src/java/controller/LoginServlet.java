@@ -15,7 +15,6 @@ import jakarta.servlet.http.HttpSession;
 import model.UserDAO;
 import model.UserModel;
 
-
 /**
  *
  * @author bebet
@@ -81,9 +80,11 @@ public class LoginServlet extends HttpServlet {
         Cookie nameCookie = new Cookie("name", userName);
         Cookie passCookie = new Cookie("pass", password);
         Cookie remCookie = new Cookie("rem", rem);
-
+        nameCookie.setPath("/");
+        passCookie.setPath("/");
+        remCookie.setPath("/");
         // check if userName is null or not
-        if (remCookie != null) {
+        if ("ON".equalsIgnoreCase(rem)) {
             remCookie.setMaxAge(60 * 60 * 24 * 7); // 7days
             nameCookie.setMaxAge(60 * 60 * 24 * 7);
             passCookie.setMaxAge(60 * 60 * 24 * 7);
@@ -95,12 +96,12 @@ public class LoginServlet extends HttpServlet {
         response.addCookie(nameCookie);
         response.addCookie(passCookie);
         response.addCookie(remCookie);
-        
+
         UserDAO userDAO = new UserDAO();
         UserModel user = userDAO.checkAccount(userName, password);
         if (user == null) {
             request.setAttribute("message", "Username or Password invalid!");
-            request.getRequestDispatcher("login.jsp").forward(request, response);
+            response.sendRedirect("login.jsp");
         } else {
             HttpSession session = request.getSession();
             session.setAttribute("account", user);
@@ -109,9 +110,9 @@ public class LoginServlet extends HttpServlet {
             } else {
                 request.getRequestDispatcher("admin.jsp").forward(request, response);
             }
-            
+
         }
-        
+
     }
 
     /**
