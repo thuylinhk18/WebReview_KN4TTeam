@@ -91,6 +91,55 @@ public class UserDAO {
         }
         return null;
     }
+    public void deleteUser(String id){
+        DBContext db = DBContext.getInstance();
+        Connection con = null;
+        PreparedStatement statement = null;
+    String query = "";
+    try {
+    con = db.openConnection();
+    statement = con.prepareStatement(query);
+    statement.setString(1, id);
+    statement.execute();
+    } catch(Exception e){}
+    }
+    
+    public void CreateUser( String fullname, String username, 
+            String password, String email, String roles, String avt){
+        DBContext db = DBContext.getInstance();
+        Connection con = null;
+        PreparedStatement statement = null;
+        
+        String query = "";
+         try {
+         con = db.openConnection();
+         statement = con.prepareStatement(query);
+         statement.setString(1, fullname);
+         statement.setString(2, username);
+         statement.setString(3, password);
+         statement.setString(4, email);
+         statement.setString(5, roles);
+         statement.setString(6, avt);
+         statement.execute();
+         }catch(Exception e){}
+    }
+    
+    public UserModel getUserByID(String id){
+    String query ="";
+        
+        try{
+        DBContext db = DBContext.getInstance();
+        Connection con = null;
+        PreparedStatement statement = null;    
+        statement.setString(1,id);
+        ResultSet result = statement.executeQuery();
+        while(result.next()){
+            return new UserModel(rs.get)
+        }
+        } catch (Exception e){}
+        
+    }
+    
     public static void main(String[] args) {
         UserDAO dao = new UserDAO();
         System.out.println(dao.checkAccount("sum","123"));
