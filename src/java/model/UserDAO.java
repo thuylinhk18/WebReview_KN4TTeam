@@ -95,7 +95,8 @@ public class UserDAO {
         DBContext db = DBContext.getInstance();
         Connection con = null;
         PreparedStatement statement = null;
-    String query = "";
+    String query = "delete from Users\n" +
+                   "where user_id = ?; ";
     try {
     con = db.openConnection();
     statement = con.prepareStatement(query);
@@ -110,7 +111,7 @@ public class UserDAO {
         Connection con = null;
         PreparedStatement statement = null;
         
-        String query = "";
+        String query = "insert into Users values (?,?,?,?,?,?);";
          try {
          con = db.openConnection();
          statement = con.prepareStatement(query);
@@ -121,21 +122,25 @@ public class UserDAO {
          statement.setString(5, roles);
          statement.setString(6, avt);
          statement.execute();
-         }catch(Exception e){}
+        }catch(Exception e){}
     }
     
-    public UserModel getUserByID(String id){
-    String query ="";
-        
-        try{
+    public void UpdateUser(String fullname, String username, 
+            String password, String email, String roles, String avt ){
+    String query ="UPDATE Users SET username = ?, fullname= ?, password =?, email = ?, roles = ?,avt = ? WHERE user_id = ? ";
         DBContext db = DBContext.getInstance();
         Connection con = null;
         PreparedStatement statement = null;    
-        statement.setString(1,id);
-        ResultSet result = statement.executeQuery();
-        while(result.next()){
-            return new UserModel(rs.get)
-        }
+        try{
+         con = db.openConnection();
+         statement = con.prepareStatement(query);   
+         statement.setString(1, fullname);
+         statement.setString(2, username);
+         statement.setString(3, password);
+         statement.setString(4, email);
+         statement.setString(5, roles);
+         statement.setString(6, avt);
+         statement.execute();     
         } catch (Exception e){}
         
     }

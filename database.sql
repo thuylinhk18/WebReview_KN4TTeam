@@ -53,3 +53,7 @@ CREATE TABLE Favorite_Post (
     FOREIGN KEY (user_id) REFERENCES Users(user_id) ON DELETE NO ACTION,
     FOREIGN KEY (post_id) REFERENCES Post(post_id) ON DELETE NO ACTION
 );
+delete from Users
+where user_id = 9; 
+insert into Users values ('sh','JohnSon','123','johnCena@gmail.com','user' ,'avt');
+UPDATE Users SET username = 'sk', fullname= 'JohnSon', password ='123', email = 'johnTes@gmail.com', roles = 'user',avt = 'avt' WHERE user_id = '10' 
