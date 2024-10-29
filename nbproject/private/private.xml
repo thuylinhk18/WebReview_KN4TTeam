@@ -3,11 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/KN4T_Project/WebReview_KN4TTeam/src/java/controller/DeleteServlet.java</file>
+            <file>file:/D:/KN4T_Project/WebReview_KN4TTeam/src/java/connect/DBContext.java</file>
             <file>file:/D:/KN4T_Project/WebReview_KN4TTeam/src/java/model/UserModel.java</file>
             <file>file:/D:/KN4T_Project/WebReview_KN4TTeam/src/java/model/UserDAO.java</file>
-            <file>file:/D:/KN4T_Project/WebReview_KN4TTeam/src/java/controller/CreateUserServlet.java</file>
-            <file>file:/D:/KN4T_Project/WebReview_KN4TTeam/src/java/controller/UpdateUserServlet.java</file>
+            <file>file:/D:/KN4T_Project/WebReview_KN4TTeam/src/java/model/CommentDAO.java</file>
+            <file>file:/D:/KN4T_Project/WebReview_KN4TTeam/src/java/model/CommentModel.java</file>
         </group>
     </open-files>
 </project-private>

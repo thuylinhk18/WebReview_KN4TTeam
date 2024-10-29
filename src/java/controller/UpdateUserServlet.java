@@ -56,15 +56,8 @@ public class UpdateUserServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String sFullname = request.getParameter("");
-        String sUsername = request.getParameter("");
-        String sPassword = request.getParameter("");
-        String sEmail = request.getParameter("");
-        String sRoles = request.getParameter("");
-        String sAvt = request.getParameter("");
-        UserDAO dao = new UserDAO();
-        dao.CreateUser(sFullname,sUsername,sPassword,sEmail,sRoles,sAvt);
-        response.sendRedirect("admin");
+        processRequest(request, response);
+        
     }
 
     /**
@@ -78,7 +71,15 @@ public class UpdateUserServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        String sFullname = request.getParameter("");
+        String sUsername = request.getParameter("");
+        String sPassword = request.getParameter("");
+        String sEmail = request.getParameter("");
+        String sRoles = request.getParameter("");
+        String sAvt = request.getParameter("");
+        UserDAO dao = new UserDAO();
+        dao.CreateUser(sFullname,sUsername,sPassword,sEmail,sRoles,sAvt);
+        response.sendRedirect("admin");
     }
 
     /**

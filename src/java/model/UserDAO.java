@@ -102,11 +102,11 @@ public class UserDAO {
     statement = con.prepareStatement(query);
     statement.setString(1, id);
     statement.execute();
-    } catch(Exception e){}
+    } catch(Exception ex){Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);}
     }
     
     public void CreateUser( String fullname, String username, 
-            String password, String email, String roles, String avt){
+        String password, String email, String roles, String avt){
         DBContext db = DBContext.getInstance();
         Connection con = null;
         PreparedStatement statement = null;
@@ -122,7 +122,7 @@ public class UserDAO {
          statement.setString(5, roles);
          statement.setString(6, avt);
          statement.execute();
-        }catch(Exception e){}
+        }catch(Exception ex){Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);}
     }
     
     public void UpdateUser(String fullname, String username, 
@@ -140,8 +140,8 @@ public class UserDAO {
          statement.setString(4, email);
          statement.setString(5, roles);
          statement.setString(6, avt);
-         statement.execute();     
-        } catch (Exception e){}
+         statement.executeUpdate();     
+        } catch (Exception ex){Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);}
         
     }
     
