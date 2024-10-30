@@ -1,4 +1,4 @@
--- T?o c? s? d? li?u
+﻿-- T?o c? s? d? li?u
 CREATE DATABASE travel_review_website;
 
 -- S? d?ng c? s? d? li?u v?a t?o
@@ -12,7 +12,7 @@ CREATE TABLE Users (
     password VARCHAR(255) NOT NULL,
     email VARCHAR(255) UNIQUE NOT NULL,
     roles VARCHAR(50) DEFAULT 'user',
-    avt VARCHAR(255) DEFAULT NULL
+    avt VARCHAR(255) 
 );
 drop table Users
 
@@ -26,7 +26,7 @@ CREATE TABLE Posts (
     post_img VARCHAR(255),
     FOREIGN KEY (user_id) REFERENCES Users(user_id) ON DELETE CASCADE
 );
-drop table Post
+drop table Posts
 -- T?o b?ng Comment
 CREATE TABLE Comments (
     cmt_id INT IDENTITY(1,1) PRIMARY KEY,
@@ -51,6 +51,8 @@ CREATE TABLE Favorite_Posts (
 drop table  Favorite_Post
 select * from Users
 select * from Posts
+insert into Users(username,fullname,password,email,roles) values
+('admin','admin','admin','linhpttde181042@fpt.edu.vn','admin');
 insert into Posts(user_id,title,post_content,post_img) 
-values (1,N'Qu?ng B�nh - Thi�n ???ng hang ??ng',N'Qu?ng B�nh, m?t v�ng ??t v� c�ng tuy?t v?i c?a khu v?c mi?n Trung. ??n v?i Qu?ng B�nh, c�c b?n nh? ???c b??c ch�n v�o m?t b?c tranh s?n th?y h?u t�nh, nh?ng v?n mang ??m n�t m?c m?c gi?n d? c?a m?t mi?n qu�. Qu?ng B�nh kh�ng ch? n?i ti?ng v?i phong c?nh tuy?t v?i m� c�n c� r?t nhi?u m�n ?n v� c�ng th?m ngon v� h?p d?n, b�n c?nh ?�
-m?t v�i ??a danh v� c�ng n?i ti?ng c?a v�ng ??t Qu?ng B�nh: ??ng Phong Nha � K? B�ng,hang ??i T??ng, hang �n, hang S?n ?o�ng, ??ng Thi�n ???ng, bi?n Nh?t L?, bi?n B?o Ninh, c?n c�t Quang Ph��. B�n c?nh ?� c�n r?t nhi?u ??a ?i?m kh�c v� c�ng tuy?t v?i.','https://ticotravel.com.vn/wp-content/uploads/2023/10/quang-binh-thang-10-1.jpg');
+values (1,N'Quảng Bình - Thiên đường hang động',N'Quảng Bình, một vùng đất vô cùng tuyệt vời của khu vực miền Trung. Đến với Quảng Bình, các bạn như được bước chân vào một bức tranh sơn thủy hữu tình, nhưng vẫn mang đậm nét mộc mạc giản dị của một miền quê. Quảng Bình không chỉ nổi tiếng với phong cảnh tuyệt vời mà còn có rất nhiều món ăn vô cùng thơm ngon và hấp dẫn, bên cạnh đó
+một vài địa danh vô cùng nổi tiếng của vùng đất Quảng Bình: động Phong Nha – Kẻ Bàng,hang Đại Tướng, hang Én, hang Sơn Đoòng, động Thiên Đường, biển Nhật Lệ, biển Bảo Ninh, cồn cát Quang Phú…. Bên cạnh đó còn rất nhiều địa điểm khác vô cùng tuyệt vời.','https://ticotravel.com.vn/wp-content/uploads/2023/10/quang-binh-thang-10-1.jpg');
