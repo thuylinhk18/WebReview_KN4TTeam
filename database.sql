@@ -31,6 +31,8 @@ CREATE TABLE Post (
     post_img VARCHAR(255),
     FOREIGN KEY (user_id) REFERENCES Users(user_id) ON DELETE CASCADE
 );
+Select * from Post
+insert into Post values (2,'Quang Binh','Quang Binh la mot noi rat dep',12-12-2024,'safa');
 
 -- T?o b?ng Comment
 CREATE TABLE Comment (
