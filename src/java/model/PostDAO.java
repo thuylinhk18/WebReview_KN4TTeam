@@ -39,9 +39,9 @@ public class PostDAO {
             statement = con.prepareStatement(query);
             result = statement.executeQuery();
             while (result.next()) {
-                postList.add(new PostModel( result.getInt(1), 
-                        result.getString(3), 
-                        result.getString(4), 
+                postList.add(new PostModel(result.getInt(1),
+                        result.getString(3),
+                        result.getString(4),
                         result.getDate(5),
                         result.getString(6)));
             }
@@ -62,10 +62,12 @@ public class PostDAO {
 
         return postList;
     }
-//    public static void main(String[] args) {
-//        PostDAO dao = new PostDAO();
-//        System.out.println(dao.getAllPosts());
-//    }
+
+    public static void main(String[] args) {
+        PostDAO dao = new PostDAO();
+        List<PostModel> postList = dao.getAllPosts();
+        System.out.println(postList);
+    }
 //public void addStudent(Student student) {
 //        ConnectDB db = ConnectDB.getInstance();
 //        Connection con = null;

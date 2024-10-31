@@ -5,21 +5,116 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <!--
         Resto by GetTemplates.co
         URL: https://gettemplates.co
 -->
-<html lang="en">
-
+<html>
     <head>
-
-        <meta charset="utf-8">
+        <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <title>Resto - Restaurant Bootstrap 4 Template by GetTemplates.co</title>
         <meta name="description" content="Resto">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <style>
+            * {
+                box-sizing: border-box;
+            }
+            .column-3 {
+                float: left;
+                width: 33%;
+                padding: 0 10px;
+            }
+            .column-2-3 {
+                float: left;
+                width: 25%;
+                padding: 0 10px;
+            }
+            .column-2-9 {
+                float: left;
+                width: 75%;
+                padding: 0 10px;
+            }
+            .row {
+                margin: 0 -5px;
+            }
 
+            .row:after {
+                content: "";
+                display: table;
+                clear: both;
+            }
+            @media screen and (max-width: 600px) {
+                .column-3 {
+                    width: 100%;
+                    display: block;
+                    margin-bottom: 20px;
+                }
+                .column-2-3 {
+                    float: left;
+                    width: 40%;
+                    padding: 0 10px;
+                }
+                .column-2-9 {
+                    float: left;
+                    width: 60%;
+                    padding: 0 10px;
+                }
+            }
+            .card {
+                box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+                padding: 16px;
+                border-radius: 5px;
+                transition: transform 0.2s, box-shadow 0.2s;
+            }
+            .card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+            }
+            .card-image {
+                width: 110%;
+                height: auto;
+                border-radius: 10%;
+                margin-top: 10px;
+                margin-right: 5px;
+                overflow: hidden;
+                display: block;
+            }
+            .text-container {
+                overflow: hidden;
+                text-overflow: ellipsis;
+                display: -webkit-box;
+                -webkit-line-clamp: 5;
+                -webkit-box-orient: vertical;
+                max-height: 100px;
+                margin-right: 8px;
+            }
+            .text-container.expanded {
+                max-height: none;
+                -webkit-line-clamp: unset;
+            }
+            .card-title-container {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+            a.title-link {
+                text-decoration: none;
+                color: black;
+                font-size: 1.2rem;
+            }
+            .card-content {
+                display: flex;
+                align-items: center;
+                margin-top: 10px;
+            }
+            .card-price {
+                margin-left: auto;
+                font-weight: bold;
+            }
+        </style>
     </head>
     <body>
         <jsp:include page="navbar.jsp" />	
@@ -40,242 +135,34 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-lg-4 menu-wrap">
-                            <div class="heading-menu">
-                                <h3 class="text-center mb-5">Breakfast</h3>
-                            </div>
-                            <div class="menus d-flex align-items-center">
-                                <div class="menu-img rounded-circle">
-                                    <img class="img-fluid" src="img/breakfast-1.jpg" alt="">
-                                </div>
-                                <div class="text-wrap">
-                                    <div class="row align-items-start">
-                                        <div class="col-8">
-                                            <h4>Egg Sandwich</h4>
+                        <c:forEach var="post" items="${postList}">
+                            <div class="column-3">
+                                <div class="card">
+                                    <div class="row">
+                                        <div class="column-2-3">
+                                            <img
+                                                class="card-image"
+                                                src="${post.postImg}"
+                                                alt="Egg Sandwich"
+                                                />
                                         </div>
-                                        <div class="col-4">
-                                            <h4 class="text-muted menu-price">$30</h4>
-                                        </div>
-                                    </div>
-                                    <p>Meat Ball, Mie</p>
-                                </div>
-                            </div>
-                            <div class="menus d-flex align-items-center">
-                                <div class="menu-img rounded-circle">
-                                    <img class="img-fluid" src="img/breakfast-1.jpg" alt="">
-                                </div>
-                                <div class="text-wrap">
-                                    <div class="row align-items-start">
-                                        <div class="col-8">
-                                            <h4>Egg Sandwich</h4>
-                                        </div>
-                                        <div class="col-4">
-                                            <h4 class="text-muted menu-price">$30</h4>
+                                        <div class="column-2-9">
+                                            <a class="title-link" href="javascript:void(0);">
+                                                <div class="card-title-container">
+                                                    <span class="card-title">${post.postTitle}</span>
+                                                </div>
+                                            </a>
+                                            <div class="card-content">
+                                                <span class="text-container">
+                                                    Lorem ipsum dolor sit amet, consectetur...
+                                                </span>
+                                                <a href="javascript:void(0);">Read more</a>
+                                            </div>
                                         </div>
                                     </div>
-                                    <p>Meat Ball, Mie</p>
                                 </div>
                             </div>
-                            <div class="menus d-flex align-items-center">
-                                <div class="menu-img rounded-circle">
-                                    <img class="img-fluid" src="img/breakfast-1.jpg" alt="">
-                                </div>
-                                <div class="text-wrap">
-                                    <div class="row align-items-start">
-                                        <div class="col-8">
-                                            <h4>Egg Sandwich</h4>
-                                        </div>
-                                        <div class="col-4">
-                                            <h4 class="text-muted menu-price">$30</h4>
-                                        </div>
-                                    </div>
-                                    <p>Meat Ball, Mie</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-4 menu-wrap">
-                            <div class="heading-menu">
-                                <h3 class="text-center mb-5">Breakfast</h3>
-                            </div>
-                            <div class="menus d-flex align-items-center">
-                                <div class="menu-img rounded-circle">
-                                    <img class="img-fluid" src="img/breakfast-1.jpg" alt="">
-                                </div>
-                                <div class="text-wrap">
-                                    <div class="row align-items-start">
-                                        <div class="col-8">
-                                            <h4>Egg Sandwich</h4>
-                                        </div>
-                                        <div class="col-4">
-                                            <h4 class="text-muted menu-price">$30</h4>
-                                        </div>
-                                    </div>
-                                    <p>Meat Ball, Mie</p>
-                                </div>
-                            </div>
-                            <div class="menus d-flex align-items-center">
-                                <div class="menu-img rounded-circle">
-                                    <img class="img-fluid" src="img/breakfast-1.jpg" alt="">
-                                </div>
-                                <div class="text-wrap">
-                                    <div class="row align-items-start">
-                                        <div class="col-8">
-                                            <h4>Egg Sandwich</h4>
-                                        </div>
-                                        <div class="col-4">
-                                            <h4 class="text-muted menu-price">$30</h4>
-                                        </div>
-                                    </div>
-                                    <p>Meat Ball, Mie</p>
-                                </div>
-                            </div>
-                            <div class="menus d-flex align-items-center">
-                                <div class="menu-img rounded-circle">
-                                    <img class="img-fluid" src="img/breakfast-1.jpg" alt="">
-                                </div>
-                                <div class="text-wrap">
-                                    <div class="row align-items-start">
-                                        <div class="col-8">
-                                            <h4>Egg Sandwich</h4>
-                                        </div>
-                                        <div class="col-4">
-                                            <h4 class="text-muted menu-price">$30</h4>
-                                        </div>
-                                    </div>
-                                    <p>Meat Ball, Mie</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-4 menu-wrap">
-                            <div class="heading-menu">
-                                <h3 class="text-center mb-5">Breakfast</h3>
-                            </div>
-                            <div class="menus d-flex align-items-center">
-                                <div class="menu-img rounded-circle">
-                                    <img class="img-fluid" src="img/breakfast-1.jpg" alt="">
-                                </div>
-                                <div class="text-wrap">
-                                    <div class="row align-items-start">
-                                        <div class="col-8">
-                                            <h4>Egg Sandwich</h4>
-                                        </div>
-                                        <div class="col-4">
-                                            <h4 class="text-muted menu-price">$30</h4>
-                                        </div>
-                                    </div>
-                                    <p>Meat Ball, Mie</p>
-                                </div>
-                            </div>
-                            <div class="menus d-flex align-items-center">
-                                <div class="menu-img rounded-circle">
-                                    <img class="img-fluid" src="img/breakfast-1.jpg" alt="">
-                                </div>
-                                <div class="text-wrap">
-                                    <div class="row align-items-start">
-                                        <div class="col-8">
-                                            <h4>Egg Sandwich</h4>
-                                        </div>
-                                        <div class="col-4">
-                                            <h4 class="text-muted menu-price">$30</h4>
-                                        </div>
-                                    </div>
-                                    <p>Meat Ball, Mie</p>
-                                </div>
-                            </div>
-                            <div class="menus d-flex align-items-center">
-                                <div class="menu-img rounded-circle">
-                                    <img class="img-fluid" src="img/breakfast-1.jpg" alt="">
-                                </div>
-                                <div class="text-wrap">
-                                    <div class="row align-items-start">
-                                        <div class="col-8">
-                                            <h4>Egg Sandwich</h4>
-                                        </div>
-                                        <div class="col-4">
-                                            <h4 class="text-muted menu-price">$30</h4>
-                                        </div>
-                                    </div>
-                                    <p>Meat Ball, Mie</p>
-                                </div>
-                            </div>
-                        </div>
+                        </c:forEach>
                     </div>
-                </div>
-            </div>
-        </section>
-        <!-- End of menu Section -->		<footer class="mastfoot pb-5 bg-white section-padding pb-0">
-            <div class="inner container">
-                <div class="row">
-                    <div class="col-lg-4">
-                        <div class="footer-widget pr-lg-5 pr-0">
-                            <img src="img/logo.png" class="img-fluid footer-logo mb-3" alt="">
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Et obcaecati quisquam id sit omnis explicabo voluptate aut placeat, soluta, nisi ea magni facere, itaque incidunt modi? Magni, et voluptatum dolorem.</p>
-                            <nav class="nav nav-mastfoot justify-content-start">
-                                <a class="nav-link" href="#">
-                                    <i class="fab fa-facebook-f"></i>
-                                </a>
-                                <a class="nav-link" href="#">
-                                    <i class="fab fa-twitter"></i>
-                                </a>
-                                <a class="nav-link" href="#">
-                                    <i class="fab fa-instagram"></i>
-                                </a>
-                            </nav>
-                        </div>
-
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="footer-widget px-lg-5 px-0">
-                            <h4>Open Hours</h4>
-                            <ul class="list-unstyled open-hours">
-                                <li class="d-flex justify-content-between"><span>Monday</span><span>9:00 - 24:00</span></li>
-                                <li class="d-flex justify-content-between"><span>Tuesday</span><span>9:00 - 24:00</span></li>
-                                <li class="d-flex justify-content-between"><span>Wednesday</span><span>9:00 - 24:00</span></li>
-                                <li class="d-flex justify-content-between"><span>Thursday</span><span>9:00 - 24:00</span></li>
-                                <li class="d-flex justify-content-between"><span>Friday</span><span>9:00 - 02:00</span></li>
-                                <li class="d-flex justify-content-between"><span>Saturday</span><span>9:00 - 02:00</span></li>
-                                <li class="d-flex justify-content-between"><span>Sunday</span><span> Closed</span></li>
-                            </ul>
-                        </div>
-
-                    </div>
-
-                    <div class="col-lg-4">
-                        <div class="footer-widget pl-lg-5 pl-0">
-                            <h4>Newsletter</h4>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-                            <form id="newsletter">
-                                <div class="form-group">
-                                    <input type="email" class="form-control" id="emailNewsletter" aria-describedby="emailNewsletter" placeholder="Enter email">
-                                </div>
-                                <button type="submit" class="btn btn-primary w-100">Submit</button>
-                            </form>
-                        </div>
-
-                    </div>
-                    <div class="col-md-12 d-flex align-items-center">
-                        <p class="mx-auto text-center mb-0">Copyright 2019. All Right Reserved. Design by <a href="https://gettemplates.co" target="_blank">GetTemplates</a></p>
-                    </div>
-
-                </div>
-            </div>
-        </footer>	</div>
-
-</div>
-<!-- External JS -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
-<script src="vendor/bootstrap/popper.min.js"></script>
-<script src="vendor/bootstrap/bootstrap.min.js"></script>
-<script src="vendor/select2/select2.min.js "></script>
-<script src="vendor/owlcarousel/owl.carousel.min.js"></script>
-<script src="https://cdn.rawgit.com/noelboss/featherlight/1.7.13/release/featherlight.min.js"></script>
-<script src="vendor/stellar/jquery.stellar.js" type="text/javascript" charset="utf-8"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.1/js/tempusdominus-bootstrap-4.min.js"></script>
-
-<!-- Main JS -->
-<script src="js/app.min.js "></script>
-</body>
-</html>
+                    </body>
+                    </html>

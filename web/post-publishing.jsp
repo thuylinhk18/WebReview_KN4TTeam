@@ -23,149 +23,33 @@
     <body>
         <jsp:include page="navbar.jsp" />	
         <!-- Reservation Section -->
-        <section id="gtco-reservation" class="bg-fixed bg-white section-padding overlay" style="background-image: url(img/reservation-bg.jpg);">
+        <section 
+            style="background-image: url(https://media.self.com/photos/5f0885ffef7a10ffa6640daa/4:3/w_5240,h_3929,c_limit/travel_plane_corona.jpeg);">
             <div class="container">
-                <div class="row">
-                    <div class="col-lg-5">
-                        <div class="section-content bg-white p-5 shadow">
-                            <div class="heading-section text-center">
-                                <span class="subheading">
-                                    Reservation
-                                </span>
-                                <h2>
-                                    Book Now
-                                </h2>
-                            </div>
-                            <form method="post" name="contact-us" action="">
-                                <div class="row">
-                                    <div class="col-md-12 form-group">
-                                        <input type="text" class="form-control" id="name" name="name" placeholder="Name">
-                                    </div>
-                                    <div class="col-md-12 form-group">
-                                        <input type="text" class="form-control" id="email" name="email" placeholder="Email">
-                                    </div>
-                                    <div class="col-md-12 form-group">
-                                        <input type="number" class="form-control" id="phoneNumber" name="phoneNumber" placeholder="Phone">
-                                    </div>
-                                    <div class="col-md-6 form-group">
-                                        <div class="input-group date" id="datetimepicker4" data-target-input="nearest">
-                                            <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker4" placeholder="Date" />
-                                            <div class="input-group-append" data-target="#datetimepicker4" data-toggle="datetimepicker">
-                                                <div class="input-group-text">
-                                                    <span class="lnr lnr-calendar-full"></span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-6 form-group">
-                                        <div class="input-group date" id="datetimepicker3" data-target-input="nearest">
-                                            <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker3" placeholder="Time" />
-                                            <div class="input-group-append" data-target="#datetimepicker3" data-toggle="datetimepicker">
-                                                <div class="input-group-text">
-                                                    <span class="lnr lnr-clock"></span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-12 form-group">
-                                        <select class="form-control" id="selectPerson">
-                                            <option></option>
-                                            <option>1</option>
-                                            <option>2</option>
-                                            <option>3</option>
-                                            <option>4</option>
-                                            <option>5</option>
-                                        </select>
-                                    </div>
-
-                                    <div class="col-md-12 form-group">
-                                        <textarea class="form-control" id="message" name="message" rows="6" placeholder="Your Message ..."></textarea>
-                                    </div>
-                                    <div class="col-md-12 text-center">
-                                        <button class="btn btn-primary btn-shadow btn-lg" type="submit" name="submit">Send Message</button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
+                <div class="section-content bg-white p-5 shadow" style="margin-left: 25%; width: 50%;">
+                    <div class="heading-section text-center">
+                        <h2>
+                            Bài đăng của bạn
+                        </h2>
                     </div>
+                    <form method="post" name="post-publishing" action="post">
+                        <div class="row">
+                            <div class="col-md-12 form-group">
+                                <input type="text" class="form-control" name="title" placeholder="Tiêu đề">
+                            </div>
+                            <div class="col-md-12 form-group">
+                                <textarea class="form-control" name="content" rows="10" placeholder="Nội dung"></textarea>
+                            </div>
+                            <h3 style="color: red">${requestScope.message}</h3>
+                            <div class="col-md-12 form-group"> 
+                                <button class=" btn btn-shadow btn-lg" type="submit" style="margin-left: 38%;background-color: #f34949;color: white">Đăng bài</button>
+                                <input type="hidden" name="COMMAND" value="POST">
+                            </div>
+                        </div>
+                    </form>
                 </div>
-
             </div>
         </section>
-        <!-- End of Reservation Section -->		<footer class="mastfoot pb-5 bg-white section-padding pb-0">
-            <div class="inner container">
-                <div class="row">
-                    <div class="col-lg-4">
-                        <div class="footer-widget pr-lg-5 pr-0">
-                            <img src="img/logo.png" class="img-fluid footer-logo mb-3" alt="">
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Et obcaecati quisquam id sit omnis explicabo voluptate aut placeat, soluta, nisi ea magni facere, itaque incidunt modi? Magni, et voluptatum dolorem.</p>
-                            <nav class="nav nav-mastfoot justify-content-start">
-                                <a class="nav-link" href="#">
-                                    <i class="fab fa-facebook-f"></i>
-                                </a>
-                                <a class="nav-link" href="#">
-                                    <i class="fab fa-twitter"></i>
-                                </a>
-                                <a class="nav-link" href="#">
-                                    <i class="fab fa-instagram"></i>
-                                </a>
-                            </nav>
-                        </div>
-
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="footer-widget px-lg-5 px-0">
-                            <h4>Open Hours</h4>
-                            <ul class="list-unstyled open-hours">
-                                <li class="d-flex justify-content-between"><span>Monday</span><span>9:00 - 24:00</span></li>
-                                <li class="d-flex justify-content-between"><span>Tuesday</span><span>9:00 - 24:00</span></li>
-                                <li class="d-flex justify-content-between"><span>Wednesday</span><span>9:00 - 24:00</span></li>
-                                <li class="d-flex justify-content-between"><span>Thursday</span><span>9:00 - 24:00</span></li>
-                                <li class="d-flex justify-content-between"><span>Friday</span><span>9:00 - 02:00</span></li>
-                                <li class="d-flex justify-content-between"><span>Saturday</span><span>9:00 - 02:00</span></li>
-                                <li class="d-flex justify-content-between"><span>Sunday</span><span> Closed</span></li>
-                            </ul>
-                        </div>
-
-                    </div>
-
-                    <div class="col-lg-4">
-                        <div class="footer-widget pl-lg-5 pl-0">
-                            <h4>Newsletter</h4>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-                            <form id="newsletter">
-                                <div class="form-group">
-                                    <input type="email" class="form-control" id="emailNewsletter" aria-describedby="emailNewsletter" placeholder="Enter email">
-                                </div>
-                                <button type="submit" class="btn btn-primary w-100">Submit</button>
-                            </form>
-                        </div>
-
-                    </div>
-                    <div class="col-md-12 d-flex align-items-center">
-                        <p class="mx-auto text-center mb-0">Copyright 2019. All Right Reserved. Design by <a href="https://gettemplates.co" target="_blank">GetTemplates</a></p>
-                    </div>
-
-                </div>
-            </div>
-        </footer>	</div>
-
-</div>
-<!-- External JS -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
-<script src="vendor/bootstrap/popper.min.js"></script>
-<script src="vendor/bootstrap/bootstrap.min.js"></script>
-<script src="vendor/select2/select2.min.js "></script>
-<script src="vendor/owlcarousel/owl.carousel.min.js"></script>
-<script src="https://cdn.rawgit.com/noelboss/featherlight/1.7.13/release/featherlight.min.js"></script>
-<script src="vendor/stellar/jquery.stellar.js" type="text/javascript" charset="utf-8"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.1/js/tempusdominus-bootstrap-4.min.js"></script>
-
-<!-- Main JS -->
-<script src="js/app.min.js "></script>
-</body>
+    </body>
 </html>
 

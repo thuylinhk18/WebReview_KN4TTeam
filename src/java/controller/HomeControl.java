@@ -5,12 +5,10 @@
 package controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
 import java.util.List;
 import model.PostDAO;
 import model.PostModel;
@@ -36,7 +34,7 @@ public class HomeControl extends HttpServlet {
         PostDAO dao = new PostDAO();
         List<PostModel> postList = dao.getAllPosts();
         request.setAttribute("postList", postList);
-        request.getRequestDispatcher("home.jsp").forward(request, response);
+        request.getRequestDispatcher("forum.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

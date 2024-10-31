@@ -28,7 +28,7 @@
             <div class="container">
                 <div class="section-content">
                     <div class="row">
-                        <div class="col-sm-5 img-bg d-flex shadow align-items-center justify-content-center justify-content-md-end img-2" style="background-image: url(img/hero-2.jpg);">
+                        <div class="col-sm-5 img-bg d-flex shadow align-items-center justify-content-center justify-content-md-end img-2" style="background-image: url(https://i.vietgiaitri.com/2019/3/30/nhung-thanh-pho-dep-nhat-khi-kham-pha-ve-dem-e22cd8.jpg);">
 
                         </div>
                         <div class="col-sm-7 py-5 pl-md-0 pl-4">
@@ -43,7 +43,7 @@
                                 <h4><b>Các cuộc thảo luận sôi nổi</b></h4>
                                 <h4><b>& Tìm kiếm nhanh chóng</b></h4>
                                 <br/>
-                                
+
 
 
 
@@ -60,12 +60,12 @@
                 <div class="footer-widget pl-lg-5 pl-0">
                     <form action="HomeControl" method="post">
                         <button type="submit" class="btn btn-primary w-100" style="margin-left: 170%; margin-top: -40px" >Tham gia ngay!</button>
-                         <input type="hidden" name="COMMAND" value="JOIN">
+                        <input type="hidden" name="COMMAND" value="JOIN">
                     </form>
                 </div>
-
-        </footer>	</div>
-</div>
-</body>
+            </div>
+        </footer>	
+        <jsp:include page="footer.jsp" />
+    </body>
 </html>
 
