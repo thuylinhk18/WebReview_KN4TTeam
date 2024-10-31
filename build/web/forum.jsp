@@ -13,10 +13,10 @@
 -->
 <html>
     <head>
-        <meta charset="UTF-8">
+        <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Resto - Restaurant Bootstrap 4 Template by GetTemplates.co</title>
-        <meta name="description" content="Resto">
+        <title>WanderWise</title>
+        <meta name="description" content="WanderWise">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <style>
             * {
