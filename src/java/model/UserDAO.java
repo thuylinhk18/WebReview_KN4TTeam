@@ -172,7 +172,7 @@ public class UserDAO {
         }
     }
 
-    public void AddUser(String username, String fullname,
+    public void addUser(String username, String fullname,
             String password, String email) {
         DBContext db = DBContext.getInstance();
         Connection con = null;
@@ -187,8 +187,8 @@ public class UserDAO {
             statement.setString(2, fullname);
             statement.setString(3, password);
             statement.setString(4, email);
-            statement.execute();
-        } catch (Exception ex) {
+            statement.executeUpdate();
+        } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

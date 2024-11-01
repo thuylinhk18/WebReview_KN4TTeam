@@ -71,6 +71,9 @@ public class HomeControl extends HttpServlet {
         switch (command) {
             case "LOGIN" ->
                 login(request, response);
+            case "LOGOUT" ->
+                logout(request, response);
+
             case "REGISTER" ->
                 register(request, response);
             case "REGISTER_FORM" ->
@@ -115,6 +118,7 @@ public class HomeControl extends HttpServlet {
             request.getRequestDispatcher("login.jsp").forward(request, response);
         } else {
             HttpSession session = request.getSession();
+            //just save uesrId &username of user, not whole object
             session.setAttribute("userId", user.getUserId());
             session.setAttribute("username", user.getUsername());
             if (user.getRoles().equals("user")) {
@@ -125,6 +129,13 @@ public class HomeControl extends HttpServlet {
             }
 
         }
+    }
+      protected void logout(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        
+            HttpSession session = request.getSession(false);
+            session.invalidate();
+            homepageUser(request, response);
     }
 
     protected void registerForm(HttpServletRequest request, HttpServletResponse response)
@@ -139,24 +150,26 @@ public class HomeControl extends HttpServlet {
         String password = request.getParameter("password");
         String repass = request.getParameter("repassword");
         String email = request.getParameter("email");
+        //check whether repassword equals password or not
         if (!password.equals(repass)) {
             request.setAttribute("message", "Mật khẩu xác nhận sai!");
             request.getRequestDispatcher("register.jsp").forward(request, response);
-        }
-        //Add user
-        UserDAO dao = new UserDAO();
-        List<UserModel> userList = dao.getUsers();
-        if (dao.checkUsernameExist(username)) {
-            request.setAttribute("message", "Tên đăng nhập đã tồn tại!");
+        } else {
+            UserDAO dao = new UserDAO();
+            //check whether username is existed
+            if (dao.checkUsernameExist(username)) {
+                request.setAttribute("message", "Tên đăng nhập đã tồn tại!");
+                request.getRequestDispatcher("register.jsp").forward(request, response);
+            } //check whether email is existed
+            else if (dao.checkEmailExist(email)) {
+                request.setAttribute("message", "Email đã tồn tại!");
+                request.getRequestDispatcher("register.jsp").forward(request, response);
+            }
+            //Add user
+            dao.addUser(username, fullName, password, email);
+            request.setAttribute("message", "Đăng ký thành công! Đăng nhập lại để tiếp tục!");
             request.getRequestDispatcher("register.jsp").forward(request, response);
         }
-        if (dao.checkEmailExist(email)) {
-            request.setAttribute("message", "Email đã tồn tại!");
-            request.getRequestDispatcher("register.jsp").forward(request, response);
-        }
-        dao.AddUser(username, fullName, password, email);
-        request.setAttribute("message", "Đăng ký thành công! Đăng nhập lại để tiếp tục!");
-        request.getRequestDispatcher("register.jsp").forward(request, response);
     }
 
     /**
