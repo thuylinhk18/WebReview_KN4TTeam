@@ -49,7 +49,7 @@ public class UserDAO {
         return users;
     }
 
-    public UserModel checkAccount(String userNameToCheck, String passwordToCheck) {
+    public UserModel checkAuth(String userNameToCheck, String passwordToCheck) {
 
         DBContext db = DBContext.getInstance();
         Connection con = null;
@@ -89,6 +89,73 @@ public class UserDAO {
         return null;
     }
 
+    public boolean checkUsernameExist(String userNameToCheck) {
+
+        DBContext db = DBContext.getInstance();
+        Connection con = null;
+        PreparedStatement statement = null;
+        ResultSet result = null;
+        try {
+            con = db.openConnection();
+            if (con == null) {
+                System.err.println("Error: Unable to open database connection.");
+            }
+            String sql = "select * from Users  where userName = ?";
+            statement = con.prepareStatement(sql);
+            statement.setString(1, userNameToCheck);
+            result = statement.executeQuery();
+            if (result.next()) {
+                return true;
+            }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                result.close();
+                statement.close();
+                con.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return false;
+    }
+    public boolean checkEmailExist(String emailToCheck) {
+
+        DBContext db = DBContext.getInstance();
+        Connection con = null;
+        PreparedStatement statement = null;
+        ResultSet result = null;
+        try {
+            con = db.openConnection();
+            if (con == null) {
+                System.err.println("Error: Unable to open database connection.");
+            }
+            String sql = "select * from Users  where email = ?";
+            statement = con.prepareStatement(sql);
+            statement.setString(1, emailToCheck);
+            result = statement.executeQuery();
+            if (result.next()) {
+                return true;
+            }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                result.close();
+                statement.close();
+                con.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return false;
+    }
+
     public void deleteUser(String id) {
         DBContext db = DBContext.getInstance();
         Connection con = null;
@@ -105,7 +172,7 @@ public class UserDAO {
         }
     }
 
-    public void AddUser( String username,String fullname,
+    public void AddUser(String username, String fullname,
             String password, String email) {
         DBContext db = DBContext.getInstance();
         Connection con = null;

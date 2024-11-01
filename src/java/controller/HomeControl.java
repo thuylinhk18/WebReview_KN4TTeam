@@ -109,7 +109,7 @@ public class HomeControl extends HttpServlet {
         response.addCookie(remCookie);
 
         UserDAO dao = new UserDAO();
-        UserModel user = dao.checkAccount(username, password);
+        UserModel user = dao.checkAuth(username, password);
         if (user == null) {
             request.setAttribute("message", "Tên đăng nhập hoặc mật khẩu không đúng!");
             request.getRequestDispatcher("login.jsp").forward(request, response);
@@ -146,14 +146,13 @@ public class HomeControl extends HttpServlet {
         //Add user
         UserDAO dao = new UserDAO();
         List<UserModel> userList = dao.getUsers();
-        for (UserModel user : userList) {
-            if (user.getUsername().equals(username)) {
-                request.setAttribute("message", "Tên đăng nhập đã tồn tại!");
-                request.getRequestDispatcher("register.jsp").forward(request, response);
-            } else if (user.getEmail().equals(email)) {
-                request.setAttribute("message", "Email đã tồn tại!");
-                request.getRequestDispatcher("register.jsp").forward(request, response);
-            }
+        if (dao.checkUsernameExist(username)) {
+            request.setAttribute("message", "Tên đăng nhập đã tồn tại!");
+            request.getRequestDispatcher("register.jsp").forward(request, response);
+        }
+        if (dao.checkEmailExist(email)) {
+            request.setAttribute("message", "Email đã tồn tại!");
+            request.getRequestDispatcher("register.jsp").forward(request, response);
         }
         dao.AddUser(username, fullName, password, email);
         request.setAttribute("message", "Đăng ký thành công! Đăng nhập lại để tiếp tục!");
