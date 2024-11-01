@@ -10,7 +10,7 @@ package model;
  */
 public class UserModel {
 
-    private int user_id;
+    private int userId;
     private String username;
     private String fullname;
     private String password;
@@ -21,8 +21,8 @@ public class UserModel {
     public UserModel() {
     }
 
-    public UserModel(int user_id, String username, String fullname, String password, String email, String roles, String avt) {
-        this.user_id = user_id;
+    public UserModel(int userId, String username, String fullname, String password, String email, String roles, String avt) {
+        this.userId = userId;
         this.username = username;
         this.fullname = fullname;
         this.password = password;
@@ -37,12 +37,12 @@ public class UserModel {
         this.roles = roles;
     }
 
-    public int getUser_id() {
-        return user_id;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setUser_id(int user_id) {
-        this.user_id = user_id;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public String getUsername() {
@@ -93,9 +93,5 @@ public class UserModel {
         this.avt = avt;
     }
 
-    @Override
-    public String toString() {
-        return "UserModel{" + "user_id=" + user_id + ", username=" + username + ", fullname=" + fullname + ", password=" + password + ", email=" + email + ", roles=" + roles + ", avt=" + avt + '}';
-    }
-
+    
 }

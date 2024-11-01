@@ -6,12 +6,16 @@ package controller;
 
 import java.io.IOException;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.util.List;
 import model.PostDAO;
 import model.PostModel;
+import model.UserDAO;
+import model.UserModel;
 
 /**
  *
@@ -63,7 +67,97 @@ public class HomeControl extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        String command = request.getParameter("COMMAND");
+        switch (command) {
+            case "LOGIN" ->
+                login(request, response);
+            case "REGISTER" ->
+                register(request, response);
+            case "REGISTER_FORM" ->
+                registerForm(request, response);
+
+        }
+    }
+
+    protected void homepageUser(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        response.sendRedirect("home.jsp");
+    }
+
+    protected void login(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+        String rem = request.getParameter("rememberMe");
+        // tao 3 cookies: username,password,rem
+        Cookie nameCookie = new Cookie("name", username);
+        Cookie passCookie = new Cookie("pass", password);
+        Cookie remCookie = new Cookie("rem", rem);
+
+        // check if userName is null or not
+        if (rem != null) {
+            remCookie.setMaxAge(60 * 60 * 24 * 7); // 7days
+            nameCookie.setMaxAge(60 * 60 * 24 * 7);
+            passCookie.setMaxAge(60 * 60 * 24 * 7);
+        } else {
+            remCookie.setMaxAge(0); // 0day
+            nameCookie.setMaxAge(0);
+            passCookie.setMaxAge(0);
+        }
+        response.addCookie(nameCookie);
+        response.addCookie(passCookie);
+        response.addCookie(remCookie);
+
+        UserDAO dao = new UserDAO();
+        UserModel user = dao.checkAccount(username, password);
+        if (user == null) {
+            request.setAttribute("message", "Tên đăng nhập hoặc mật khẩu không đúng!");
+            request.getRequestDispatcher("login.jsp").forward(request, response);
+        } else {
+            HttpSession session = request.getSession();
+            session.setAttribute("userId", user.getUserId());
+            session.setAttribute("username", user.getUsername());
+            if (user.getRoles().equals("user")) {
+                //day ve servlet de load du lieu, khong phai jsp
+                homepageUser(request, response);
+            } else {
+                request.getRequestDispatcher("admin-homepage.jsp").forward(request, response);
+            }
+
+        }
+    }
+
+    protected void registerForm(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        response.sendRedirect("register.jsp");
+    }
+
+    protected void register(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String fullName = request.getParameter("fullname");
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+        String repass = request.getParameter("repassword");
+        String email = request.getParameter("email");
+        if (!password.equals(repass)) {
+            request.setAttribute("message", "Mật khẩu xác nhận sai!");
+            request.getRequestDispatcher("register.jsp").forward(request, response);
+        }
+        //Add user
+        UserDAO dao = new UserDAO();
+        List<UserModel> userList = dao.getUsers();
+        for (UserModel user : userList) {
+            if (user.getUsername().equals(username)) {
+                request.setAttribute("message", "Tên đăng nhập đã tồn tại!");
+                request.getRequestDispatcher("register.jsp").forward(request, response);
+            } else if (user.getEmail().equals(email)) {
+                request.setAttribute("message", "Email đã tồn tại!");
+                request.getRequestDispatcher("register.jsp").forward(request, response);
+            }
+        }
+        dao.AddUser(username, fullName, password, email);
+        request.setAttribute("message", "Đăng ký thành công! Đăng nhập lại để tiếp tục!");
+        request.getRequestDispatcher("register.jsp").forward(request, response);
     }
 
     /**

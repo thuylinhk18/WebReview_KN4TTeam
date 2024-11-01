@@ -14,6 +14,7 @@ import java.sql.ResultSet;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Connection;
+
 /**
  *
  * @author bebet
@@ -67,11 +68,10 @@ public class UserDAO {
             statement.setString(2, passwordToCheck);
             result = statement.executeQuery();
             if (result.next()) {
-                UserModel user = new UserModel(result.getString(1),
+                return new UserModel(result.getString(1),
                         result.getString(2),
                         result.getString(3));
 
-                return user;
             }
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -105,22 +105,21 @@ public class UserDAO {
         }
     }
 
-    public void CreateUser(String fullname, String username,
-            String password, String email, String roles, String avt) {
+    public void AddUser( String username,String fullname,
+            String password, String email) {
         DBContext db = DBContext.getInstance();
         Connection con = null;
         PreparedStatement statement = null;
 
-        String query = "insert into Users values (?,?,?,?,?,?);";
+        String query = "insert into Users(username,fullname,password,email) values\n"
+                + "(?,?,?,?);";
         try {
             con = db.openConnection();
             statement = con.prepareStatement(query);
-            statement.setString(1, fullname);
-            statement.setString(2, username);
+            statement.setString(1, username);
+            statement.setString(2, fullname);
             statement.setString(3, password);
             statement.setString(4, email);
-            statement.setString(5, roles);
-            statement.setString(6, avt);
             statement.execute();
         } catch (Exception ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
