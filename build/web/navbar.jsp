@@ -93,7 +93,10 @@
                     <div class="user-dropdown" onclick="toggleDropdown()">
                         <i class="fas fa-user"></i> <!-- Biểu tượng user -->
                         <div class="dropdown-content" id="userDropdown">
-                            <a href="#account">Tài khoản của tôi</a>
+                            <form id="view-profile" action="HomeControl" method="post">
+                                <input type="hidden" name="COMMAND" value="VIEW_PROFILE"/>
+                                <a href="#" onclick="document.getElementById('view-profile').submit();return false">Tài khoản của tôi</a>
+                            </form>
                             <a href="#favorites">Bài viết yêu thích</a>
                             <a href="#my-posts">Bài viết đã đăng</a>
                             <form id="logout" action="HomeControl" method="post">

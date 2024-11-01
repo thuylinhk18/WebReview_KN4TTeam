@@ -122,6 +122,7 @@ public class UserDAO {
         }
         return false;
     }
+
     public boolean checkEmailExist(String emailToCheck) {
 
         DBContext db = DBContext.getInstance();
@@ -156,22 +157,6 @@ public class UserDAO {
         return false;
     }
 
-    public void deleteUser(String id) {
-        DBContext db = DBContext.getInstance();
-        Connection con = null;
-        PreparedStatement statement = null;
-        String query = "delete from Users\n"
-                + "where user_id = ?; ";
-        try {
-            con = db.openConnection();
-            statement = con.prepareStatement(query);
-            statement.setString(1, id);
-            statement.execute();
-        } catch (Exception ex) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
     public void addUser(String username, String fullname,
             String password, String email) {
         DBContext db = DBContext.getInstance();
@@ -189,6 +174,22 @@ public class UserDAO {
             statement.setString(4, email);
             statement.executeUpdate();
         } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void deleteUser(String id) {
+        DBContext db = DBContext.getInstance();
+        Connection con = null;
+        PreparedStatement statement = null;
+        String query = "delete from Users\n"
+                + "where user_id = ?; ";
+        try {
+            con = db.openConnection();
+            statement = con.prepareStatement(query);
+            statement.setString(1, id);
+            statement.execute();
+        } catch (Exception ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -214,10 +215,41 @@ public class UserDAO {
         }
 
     }
+    public UserModel searchUserById(int userId) {
+
+        DBContext db = DBContext.getInstance();
+        Connection con = null;
+        PreparedStatement statement = null;
+        ResultSet result = null;
+        try {
+            con = db.openConnection();
+            if (con == null) {
+                System.err.println("Error: Unable to open database connection.");
+                return null;
+            }
+            String sql = "select * from Users  where user_id = ? ";
+            statement = con.prepareStatement(sql);
+            statement.setInt(1, userId);
+            result = statement.executeQuery();
+            if (result.next()) {
+                return new UserModel(result.getInt(1), 
+                        result.getString(2), 
+                        result.getString(3),
+                        result.getString(4), 
+                        result.getString(5), 
+                        result.getString(6),
+                        result.getString(7));
+
+            }
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+        return null;
+    }
 
     public static void main(String[] args) {
         UserDAO dao = new UserDAO();
-        dao.deleteUser("1");
+        System.out.println(dao.searchUserById(2).toString());
     }
 
 }

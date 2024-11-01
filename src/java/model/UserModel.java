@@ -93,5 +93,10 @@ public class UserModel {
         this.avt = avt;
     }
 
+    @Override
+    public String toString() {
+        return "UserModel{" + "userId=" + userId + ", username=" + username + ", fullname=" + fullname + ", password=" + password + ", email=" + email + ", roles=" + roles + ", avt=" + avt + '}';
+    }
+
     
 }

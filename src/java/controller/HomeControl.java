@@ -73,12 +73,16 @@ public class HomeControl extends HttpServlet {
                 login(request, response);
             case "LOGOUT" ->
                 logout(request, response);
-
             case "REGISTER" ->
                 register(request, response);
             case "REGISTER_FORM" ->
                 registerForm(request, response);
-
+            case "VIEW_PROFILE" ->
+                viewProfile(request, response);
+            case "EDIT_PROFILE" ->
+                registerForm(request, response);
+            case "REMOVE_ACCOUNT" ->
+                removeAccount(request, response);
         }
     }
 
@@ -130,12 +134,13 @@ public class HomeControl extends HttpServlet {
 
         }
     }
-      protected void logout(HttpServletRequest request, HttpServletResponse response)
+
+    protected void logout(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-            HttpSession session = request.getSession(false);
-            session.invalidate();
-            homepageUser(request, response);
+        //remove session 
+        HttpSession session = request.getSession(false);
+        session.invalidate();
+        homepageUser(request, response);
     }
 
     protected void registerForm(HttpServletRequest request, HttpServletResponse response)
@@ -170,6 +175,31 @@ public class HomeControl extends HttpServlet {
             request.setAttribute("message", "Đăng ký thành công! Đăng nhập lại để tiếp tục!");
             request.getRequestDispatcher("register.jsp").forward(request, response);
         }
+    }
+
+    protected void viewProfile(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        HttpSession session = request.getSession(false);
+        Integer userId = (Integer) session.getAttribute("userId");
+//        if (userId == null) {
+//            response.sendRedirect("login.jsp"); 
+//            return; 
+//        }
+        UserDAO dao = new UserDAO();
+        UserModel user = dao.searchUserById(userId);
+        session.setAttribute("fullname", user.getFullname());
+        session.setAttribute("email", user.getEmail());
+        response.sendRedirect("profile.jsp");
+    }
+
+    protected void removeAccount(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        HttpSession session = request.getSession(false);
+        String userId = (String) session.getAttribute("userId");
+        UserDAO dao = new UserDAO();
+        dao.deleteUser(userId);
+        session.invalidate();
+        homepageUser(request, response);
     }
 
     /**
