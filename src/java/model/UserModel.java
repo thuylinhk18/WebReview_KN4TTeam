@@ -36,7 +36,7 @@ public class UserModel {
         this.fullname = fullname;
         this.roles = roles;
     }
-
+    
     public int getUserId() {
         return userId;
     }

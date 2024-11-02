@@ -11,9 +11,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import java.util.List;
-import model.PostDAO;
-import model.PostModel;
+import java.io.PrintWriter;
 import model.UserDAO;
 import model.UserModel;
 
@@ -22,6 +20,18 @@ import model.UserModel;
  * @author bebet
  */
 public class HomeControl extends HttpServlet {
+
+    private static final String MESSAGE_LABEL = "message";
+    private static final String MESSAGE_WRONG_PASSWORD = "Mật khẩu xác nhận sai!";
+    private static final String MESSAGE_EXISTED_USERNAME = "Tên đăng nhập đã tồn tại!";
+    private static final String MESSAGE_EXISTED_EMAIL = "Email đã tồn tại!";
+    private static final String MESSAGE_LOGIN_SUCCESSFULLY = "Đăng ký thành công! Đăng nhập lại để tiếp tục!";
+    private static final String SESSION_USERNAME = "username";
+    private static final String MESSAGE_EDIT_PROFILE_SUCCESSFULLY = "Thay đổi thành công.";
+    private static final String MESSAGE_PASSWORD_NOT_MATCHING = "Xác nhận mật khẩu sai";
+    private static final String MESSAGE_REGISTER_SUCCESSFULLY = "Đăng ký thành công! Đăng nhập lại để tiếp tục!";
+    private static final String MESSAGE_CHANGE_PASSWORD_SUCCESSFULLY = "Đổi mật khẩu thành công. Đăng nhập lại để tiếp tục!";
+    private UserDAO dao = new UserDAO();
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,10 +45,18 @@ public class HomeControl extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        PostDAO dao = new PostDAO();
-        List<PostModel> postList = dao.getAllPosts();
-        request.setAttribute("postList", postList);
-        request.getRequestDispatcher("forum.jsp").forward(request, response);
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet StudentServlet</title>");
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet StudentServlet at " + request.getContextPath() + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -53,7 +71,19 @@ public class HomeControl extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        String command = request.getParameter("COMMAND");
+        switch (command) {
+            case "VIEW_PROFILE" -> {
+                viewProfile(request, response);
+                break;
+            }
+            case "LOGOUT" -> {
+                logout(request, response);
+                break;
+            }
+            default ->
+                homepageUser(request, response);
+        }
     }
 
     /**
@@ -69,20 +99,30 @@ public class HomeControl extends HttpServlet {
             throws ServletException, IOException {
         String command = request.getParameter("COMMAND");
         switch (command) {
-            case "LOGIN" ->
+            case "LOGIN" -> {
                 login(request, response);
-            case "LOGOUT" ->
-                logout(request, response);
-            case "REGISTER" ->
+                break;
+            }
+            case "REGISTER" -> {
                 register(request, response);
-            case "REGISTER_FORM" ->
+                break;
+            }
+            case "REGISTER_FORM" -> {
                 registerForm(request, response);
-            case "VIEW_PROFILE" ->
-                viewProfile(request, response);
-            case "EDIT_PROFILE" ->
-                registerForm(request, response);
-            case "REMOVE_ACCOUNT" ->
+                break;
+            }
+            case "EDIT_PROFILE" -> {
+                editProfile(request, response);
+                break;
+            }
+            case "CHANGE_PASSWORD" -> {
+                changePassword(request, response);
+                break;
+            }
+            case "REMOVE_ACCOUNT" -> {
                 removeAccount(request, response);
+                break;
+            }
         }
     }
 
@@ -93,38 +133,31 @@ public class HomeControl extends HttpServlet {
 
     protected void login(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String username = request.getParameter("username");
+        String username = request.getParameter(SESSION_USERNAME);
         String password = request.getParameter("password");
         String rem = request.getParameter("rememberMe");
         // tao 3 cookies: username,password,rem
-        Cookie nameCookie = new Cookie("name", username);
-        Cookie passCookie = new Cookie("pass", password);
-        Cookie remCookie = new Cookie("rem", rem);
 
         // check if userName is null or not
         if (rem != null) {
+            Cookie nameCookie = new Cookie("name", username);
+            Cookie passCookie = new Cookie("pass", password);
+            Cookie remCookie = new Cookie("rem", rem);
             remCookie.setMaxAge(60 * 60 * 24 * 7); // 7days
             nameCookie.setMaxAge(60 * 60 * 24 * 7);
             passCookie.setMaxAge(60 * 60 * 24 * 7);
-        } else {
-            remCookie.setMaxAge(0); // 0day
-            nameCookie.setMaxAge(0);
-            passCookie.setMaxAge(0);
+            response.addCookie(nameCookie);
+            response.addCookie(passCookie);
+            response.addCookie(remCookie);
         }
-        response.addCookie(nameCookie);
-        response.addCookie(passCookie);
-        response.addCookie(remCookie);
 
-        UserDAO dao = new UserDAO();
         UserModel user = dao.checkAuth(username, password);
         if (user == null) {
             request.setAttribute("message", "Tên đăng nhập hoặc mật khẩu không đúng!");
             request.getRequestDispatcher("login.jsp").forward(request, response);
         } else {
             HttpSession session = request.getSession();
-            //just save uesrId &username of user, not whole object
-            session.setAttribute("userId", user.getUserId());
-            session.setAttribute("username", user.getUsername());
+            session.setAttribute(SESSION_USERNAME, user.getUsername());
             if (user.getRoles().equals("user")) {
                 //day ve servlet de load du lieu, khong phai jsp
                 homepageUser(request, response);
@@ -151,55 +184,102 @@ public class HomeControl extends HttpServlet {
     protected void register(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String fullName = request.getParameter("fullname");
-        String username = request.getParameter("username");
+        String username = request.getParameter(SESSION_USERNAME);
         String password = request.getParameter("password");
         String repass = request.getParameter("repassword");
         String email = request.getParameter("email");
         //check whether repassword equals password or not
         if (!password.equals(repass)) {
-            request.setAttribute("message", "Mật khẩu xác nhận sai!");
+            request.setAttribute(MESSAGE_LABEL, MESSAGE_PASSWORD_NOT_MATCHING);
             request.getRequestDispatcher("register.jsp").forward(request, response);
         } else {
-            UserDAO dao = new UserDAO();
+
             //check whether username is existed
-            if (dao.checkUsernameExist(username)) {
-                request.setAttribute("message", "Tên đăng nhập đã tồn tại!");
+            if (dao.checkUsernameExist(username, null)) {
+                request.setAttribute(MESSAGE_LABEL, MESSAGE_EXISTED_USERNAME);
                 request.getRequestDispatcher("register.jsp").forward(request, response);
             } //check whether email is existed
-            else if (dao.checkEmailExist(email)) {
-                request.setAttribute("message", "Email đã tồn tại!");
+            else if (dao.checkEmailExist(email, null)) {
+                request.setAttribute(MESSAGE_LABEL, MESSAGE_EXISTED_EMAIL);
                 request.getRequestDispatcher("register.jsp").forward(request, response);
             }
             //Add user
             dao.addUser(username, fullName, password, email);
-            request.setAttribute("message", "Đăng ký thành công! Đăng nhập lại để tiếp tục!");
+            request.setAttribute(MESSAGE_LABEL, MESSAGE_REGISTER_SUCCESSFULLY);
             request.getRequestDispatcher("register.jsp").forward(request, response);
         }
     }
 
     protected void viewProfile(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession(false);
-        Integer userId = (Integer) session.getAttribute("userId");
-//        if (userId == null) {
-//            response.sendRedirect("login.jsp"); 
-//            return; 
-//        }
-        UserDAO dao = new UserDAO();
-        UserModel user = dao.searchUserById(userId);
-        session.setAttribute("fullname", user.getFullname());
-        session.setAttribute("email", user.getEmail());
-        response.sendRedirect("profile.jsp");
+        HttpSession session = request.getSession();
+        String username = session.getAttribute(SESSION_USERNAME).toString();
+
+        UserModel user = dao.getUserByUsername(username);
+        request.setAttribute("user", user);
+        request.getRequestDispatcher("profile.jsp").forward(request, response);
     }
 
     protected void removeAccount(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession(false);
         String userId = (String) session.getAttribute("userId");
-        UserDAO dao = new UserDAO();
+
         dao.deleteUser(userId);
         session.invalidate();
         homepageUser(request, response);
+    }
+
+    private void editProfile(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String fullName = request.getParameter("fullname");
+        String newUsername = request.getParameter(SESSION_USERNAME);
+        String email = request.getParameter("email");
+        UserModel tempUser = new UserModel();
+        tempUser.setFullname(fullName);
+        tempUser.setUsername(newUsername);
+        tempUser.setEmail(email);
+        String currentUser = getCurrentUser(request);
+        if (dao.checkUsernameExist(newUsername, currentUser)) {
+            request.setAttribute(MESSAGE_LABEL, MESSAGE_EXISTED_USERNAME);
+            request.setAttribute("user", tempUser);
+        } else if (dao.checkEmailExist(email, currentUser)) {
+            request.setAttribute(MESSAGE_LABEL, MESSAGE_EXISTED_EMAIL);
+            request.setAttribute("user", tempUser);
+        } else {
+            dao.updateUser(newUsername, fullName, email, currentUser);
+            UserModel user = dao.getUserByUsername(newUsername);
+            request.setAttribute("user", user);
+            request.setAttribute(MESSAGE_LABEL, MESSAGE_EDIT_PROFILE_SUCCESSFULLY);
+        }
+        request.getRequestDispatcher("profile.jsp").forward(request, response);
+    }
+
+    private String getCurrentUser(HttpServletRequest request)
+            throws ServletException, IOException {
+        HttpSession session = request.getSession(false);
+        String username = (String) session.getAttribute(SESSION_USERNAME);
+        return username;
+    }
+
+    private void changePassword(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String oldPass = request.getParameter("oldPass");
+        String newPass = request.getParameter("newPass");
+        String rePass = request.getParameter("reNewPass");
+        String currentUser = getCurrentUser(request);
+
+        if (dao.checkAuth(currentUser, oldPass) == null) {
+            request.setAttribute(MESSAGE_LABEL, MESSAGE_WRONG_PASSWORD);
+        } else if (!newPass.equals(rePass)) {
+            request.setAttribute(MESSAGE_LABEL, MESSAGE_PASSWORD_NOT_MATCHING);
+        } else {
+            dao.changePassword(currentUser, newPass);
+            request.setAttribute(MESSAGE_LABEL, MESSAGE_CHANGE_PASSWORD_SUCCESSFULLY);
+        }
+        
+        request.getRequestDispatcher("change-password.jsp").forward(request, response);
+        logout(request, response);
     }
 
     /**

@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -39,24 +40,23 @@
                     <div class="card mb-4">
                         <div class="card-header">Thông tin của tôi</div>
                         <div class="card-body">
-                            <form action="HomeControl" method="post">
+                            <form action="HomeControl?COMMAND=EDIT_PROFILE" method="post">
                                 <!-- Form Group (username)-->
                                 <div class="mb-3">
-                                    <input class="form-control" type="text" placeholder="Họ và tên" name="fullname" value="">
+                                    <input class="form-control" type="text" placeholder="Họ và tên" name="fullname" value="${user.fullname}">
                                 </div>
                                 <div class="mb-3">
-                                    <input class="form-control" type="text" placeholder="Tên tài khoản" name="username" value="">
+                                    <input class="form-control" type="text" placeholder="Tên tài khoản" name="username" value="${user.username}">
                                 </div>
                                 <div class="mb-3">
-                                    <input class="form-control" type="email" placeholder="Email" name="email" value="">
+                                    <input class="form-control" type="email" placeholder="Email" name="email" value="${user.email}">
                                 </div>
                                 <!-- Save changes button-->
-                                <input type="hidden" name="COMMAND" value="EDIT_PROFILE">
-                                <button class="btn btn-primary" type="button">Lưu thay đổi</button>
-                            </form>
-                            <form action="HomeControl" method="post" class="mt-2">
-                                <input type="hidden" name="COMMAND" value="REMOVE_ACCOUNT">
-                                <button class="btn btn-primary" type="button">Xóa tài khoản</button>
+                                <c:if test="${!empty message}">
+                                    <span class="text-danger">${message}</span>
+                                </c:if>
+                                <br>
+                                <button class="btn btn-primary mt-2" type="submit">Lưu thay đổi</button>
                             </form>
                         </div>
                     </div>

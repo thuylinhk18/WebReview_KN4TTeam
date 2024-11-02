@@ -76,38 +76,36 @@
         <ul class="navbar-nav d-flex justify-content-between">
             <div class="d-flex flex-lg-row flex-column">
                 <li class="nav-item active">
-                    <a class="nav-link" href="post-publishing.jsp">Đăng bài nhanh</a>
+                    <a class="nav-link" href="post-publishing.jsp">Đăng bài nhanh </a>
                 </li>
 
                 <li class="nav-item">
                     <a class="nav-link" href="login.jsp">Tìm kiếm</a>
                 </li>
             </div>
-            <c:if test="${sessionScope.userId ==null}">
-                <li class="nav-item">
-                    <a class="nav-link" href="login.jsp">Đăng nhập</a>
-                </li>
-            </c:if>
-            <c:if test="${sessionScope.userId !=null}">
-                <li class="nav-item">
-                    <div class="user-dropdown" onclick="toggleDropdown()">
-                        <i class="fas fa-user"></i> <!-- Biểu tượng user -->
-                        <div class="dropdown-content" id="userDropdown">
-                            <form id="view-profile" action="HomeControl" method="post">
-                                <input type="hidden" name="COMMAND" value="VIEW_PROFILE"/>
-                                <a href="#" onclick="document.getElementById('view-profile').submit();return false">Tài khoản của tôi</a>
-                            </form>
-                            <a href="#favorites">Bài viết yêu thích</a>
-                            <a href="#my-posts">Bài viết đã đăng</a>
-                            <form id="logout" action="HomeControl" method="post">
-                                <input type="hidden" name="COMMAND" value="LOGOUT"/>
-                                <a href="#" onclick="document.getElementById('logout').submit();return false">Đăng xuất</a>
-                            </form>
+            <c:choose>
+                <c:when test="${empty sessionScope.username}">
+                    <li class="nav-item">
+                        <a class="nav-link" href="login.jsp">Đăng nhập</a>
+                    </li>
+                </c:when>
+                <c:otherwise>
+                    <li class="nav-item">
+                        <div class="user-dropdown" onclick="toggleDropdown()">
+                            <i class="fas fa-user"></i> <!-- Biểu tượng user -->
+                            <div class="dropdown-content" id="userDropdown">
+                                <a href="HomeControl?COMMAND=VIEW_PROFILE">Chỉnh sửa thông tin</a>
+                                <a href="change-password.jsp">Đổi mật khẩu</a>
+                                <a href="#favorites">Bài viết yêu thích</a>
+                                <a href="#my-posts">Bài viết đã đăng</a>
+                                <a href="HomeControl?COMMAND=REMOVE_ACCOUNT">Xóa tài khoản</a>
+                                <a href="HomeControl?COMMAND=LOGOUT">Đăng xuất</a>
 
+                            </div>
                         </div>
-                    </div>
-                </li>
-            </c:if>
+                    </li>
+                </c:otherwise>
+            </c:choose>
         </ul>
     </div>
     <script>

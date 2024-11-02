@@ -52,6 +52,7 @@ drop table  Favorite_Post
 select * from Users
 select * from Posts
 select * from Users  where userName = 'admin'
+select * from Users  where user_id = 2
 select * from Users  where email = 'linhpttde181042@ft.edu.vn'
 insert into Users(username,fullname,password,email,roles) values
 ('admin','admin','admin','linhpttde181042@fpt.edu.vn','admin');
