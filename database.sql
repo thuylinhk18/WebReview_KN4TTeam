@@ -58,7 +58,11 @@ insert into Users(username,fullname,password,email,roles) values
 ('admin','admin','admin','linhpttde181042@fpt.edu.vn','admin');
 insert into Users(username,fullname,password,email) values
 ('thuylinh',N'Thùy Linh','thuylinh','thuylinhcua2024@gmail.com');
+insert into Users(username,fullname,password,email) values
+('abc',N'Thùy Tr','abc','abc@gmail.com');
 insert into Posts(user_id,title,post_content,post_img) 
 values (2,N'Quảng Bình - Thiên đường hang động',N'Quảng Bình, một vùng đất vô cùng tuyệt vời của khu vực miền Trung. Đến với Quảng Bình, các bạn như được bước chân vào một bức tranh sơn thủy hữu tình, nhưng vẫn mang đậm nét mộc mạc giản dị của một miền quê. Quảng Bình không chỉ nổi tiếng với phong cảnh tuyệt vời mà còn có rất nhiều món ăn vô cùng thơm ngon và hấp dẫn, bên cạnh đó
 một vài địa danh vô cùng nổi tiếng của vùng đất Quảng Bình: động Phong Nha – Kẻ Bàng,hang Đại Tướng, hang Én, hang Sơn Đoòng, động Thiên Đường, biển Nhật Lệ, biển Bảo Ninh, cồn cát Quang Phú…. Bên cạnh đó còn rất nhiều địa điểm khác vô cùng tuyệt vời.','https://ticotravel.com.vn/wp-content/uploads/2023/10/quang-binh-thang-10-1.jpg');
+UPDATE Users SET fullname='abc' WHERE username = 'abc'
+delete from Users where username = 'thuylinh'
 

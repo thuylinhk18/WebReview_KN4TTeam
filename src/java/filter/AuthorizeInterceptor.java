@@ -23,7 +23,7 @@ import java.util.List;
 @WebFilter(urlPatterns = {"/HomeControl"})
 public class AuthorizeInterceptor implements Filter {
 
-    private static final List<String> REQUIRED_LOGINS = List.of("VIEW_PROFILE", "EDIT_PROFILE", "REMOVE_ACCOUNT","CHANGE_PASSWORD");
+    private static final List<String> REQUIRED_LOGINS = List.of("VIEW_PROFILE", "EDIT_PROFILE", "REMOVE_ACCOUNT","CHANGE_PASSWORD","REMOVE_ACCOUNT");
 
     @Override
     public void doFilter(ServletRequest sr, ServletResponse sr1, FilterChain fc) throws IOException, ServletException {

@@ -98,7 +98,7 @@
                                 <a href="change-password.jsp">Đổi mật khẩu</a>
                                 <a href="#favorites">Bài viết yêu thích</a>
                                 <a href="#my-posts">Bài viết đã đăng</a>
-                                <a href="HomeControl?COMMAND=REMOVE_ACCOUNT">Xóa tài khoản</a>
+                                <a href="confirm-remove-account.jsp">Xóa tài khoản</a>
                                 <a href="HomeControl?COMMAND=LOGOUT">Đăng xuất</a>
 
                             </div>

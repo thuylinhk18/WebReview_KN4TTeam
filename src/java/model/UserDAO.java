@@ -126,12 +126,11 @@ public class UserDAO {
         }
     }
 
-    public void deleteUser(String id) {
+    public void deleteUser(String username) {
         DBContext db = DBContext.getInstance();
-        String sql = "delete from Users\n"
-                + "where user_id = ?; ";
+        String sql = "delete from Users where username = ? ";
         try (Connection con = db.openConnection(); PreparedStatement statement = con.prepareStatement(sql);) {
-            statement.setString(1, id);
+            statement.setString(1, username);
             statement.execute();
         } catch (Exception ex) {
             LOGGER.log(Level.SEVERE, null, ex);

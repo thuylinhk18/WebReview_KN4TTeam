@@ -31,6 +31,8 @@ public class HomeControl extends HttpServlet {
     private static final String MESSAGE_PASSWORD_NOT_MATCHING = "Xác nhận mật khẩu sai";
     private static final String MESSAGE_REGISTER_SUCCESSFULLY = "Đăng ký thành công! Đăng nhập lại để tiếp tục!";
     private static final String MESSAGE_CHANGE_PASSWORD_SUCCESSFULLY = "Đổi mật khẩu thành công. Đăng nhập lại để tiếp tục!";
+    private static final String MESSAGE_REMOVE_ACCOUNT_SUCCESSFULLY = "Xóa tài khoản thành công!";
+
     private UserDAO dao = new UserDAO();
 
     /**
@@ -222,12 +224,10 @@ public class HomeControl extends HttpServlet {
 
     protected void removeAccount(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession(false);
-        String userId = (String) session.getAttribute("userId");
 
-        dao.deleteUser(userId);
-        session.invalidate();
-        homepageUser(request, response);
+        String currentUser = getCurrentUser(request);
+        dao.deleteUser(currentUser);
+        logout(request, response);
     }
 
     private void editProfile(HttpServletRequest request, HttpServletResponse response)
@@ -277,7 +277,7 @@ public class HomeControl extends HttpServlet {
             dao.changePassword(currentUser, newPass);
             request.setAttribute(MESSAGE_LABEL, MESSAGE_CHANGE_PASSWORD_SUCCESSFULLY);
         }
-        
+
         request.getRequestDispatcher("change-password.jsp").forward(request, response);
         logout(request, response);
     }
