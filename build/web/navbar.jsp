@@ -53,6 +53,83 @@
     .dropdown-content a:hover {
         background-color: #f1f1f1;
     }
+    input[type="file"] {
+        outline: none;
+        padding: 4px;
+        margin: -4px;
+        font-size: 12px;
+    }
+
+    input[type="file"]:focus-within::file-selector-button,
+    input[type="file"]:focus::file-selector-button {
+        outline: 2px solid #0964b0;
+        outline-offset: 2px;
+    }
+
+    input[type="file"]::before {
+        top: 16px;
+    }
+
+    input[type="file"]::after {
+        top: 14px;
+    }
+
+    /* ------- From Step 2 ------- */
+
+    input[type="file"] {
+        position: relative;
+    }
+
+    input[type="file"]::file-selector-button {
+        width: 136px;
+        color: transparent;
+    }
+
+    /* Faked label styles and icon */
+    input[type="file"]::before {
+        position: absolute;
+        pointer-events: none;
+        /*   top: 11px; */
+        left: 40px;
+        color: #0964b0;
+        content: "Upload File";
+    }
+
+    input[type="file"]::after {
+        position: absolute;
+        pointer-events: none;
+        /*   top: 10px; */
+        left: 16px;
+        height: 20px;
+        width: 20px;
+        content: "";
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%230964B0'%3E%3Cpath d='M18 15v3H6v-3H4v3c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2v-3h-2zM7 9l1.41 1.41L11 7.83V16h2V7.83l2.59 2.58L17 9l-5-5-5 5z'/%3E%3C/svg%3E");
+    }
+
+    /* ------- From Step 1 ------- */
+
+    /* file upload button */
+    input[type="file"]::file-selector-button {
+        border-radius: 4px;
+        padding: 0 16px;
+        height: 40px;
+        cursor: pointer;
+        background-color: white;
+        border: 1px solid rgba(0, 0, 0, 0.16);
+        box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.05);
+        margin-right: 16px;
+        transition: background-color 200ms;
+    }
+
+    /* file upload button hover state */
+    input[type="file"]::file-selector-button:hover {
+        background-color: #f3f4f6;
+    }
+
+    /* file upload button active state */
+    input[type="file"]::file-selector-button:active {
+        background-color: #e5e7eb;
+    }
 </style>
 
 <nav id="navbar-header" class="navbar navbar-expand-lg">
@@ -65,7 +142,7 @@
                     <a class="nav-link" href="home.jsp">Trang Chủ<span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="forum.jsp">Diễn đàn</a>
+                    <a class="nav-link" href="PostController?COMMAND=VIEW_FORUM">Diễn đàn</a>
                 </li>
             </div>
         </ul>
@@ -75,10 +152,11 @@
         </a>
         <ul class="navbar-nav d-flex justify-content-between">
             <div class="d-flex flex-lg-row flex-column">
-                <li class="nav-item active">
-                    <a class="nav-link" href="post-publishing.jsp">Đăng bài nhanh </a>
-                </li>
-
+                <c:if test="${!empty sessionScope.username}">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="post-publishing.jsp">Đăng bài nhanh </a>
+                    </li>
+                </c:if>
                 <li class="nav-item">
                     <a class="nav-link" href="login.jsp">Tìm kiếm</a>
                 </li>
@@ -94,12 +172,11 @@
                         <div class="user-dropdown" onclick="toggleDropdown()">
                             <i class="fas fa-user"></i> <!-- Biểu tượng user -->
                             <div class="dropdown-content" id="userDropdown">
-                                <a href="HomeControl?COMMAND=VIEW_PROFILE">Chỉnh sửa thông tin</a>
+                                <a href="HomeController?COMMAND=VIEW_PROFILE">Chỉnh sửa thông tin</a>
                                 <a href="change-password.jsp">Đổi mật khẩu</a>
-                                <a href="#favorites">Bài viết yêu thích</a>
-                                <a href="#my-posts">Bài viết đã đăng</a>
+                                <a href="PostController?COMMAND=VIEW_MY_POSTS">Bài viết của tôi</a>
                                 <a href="confirm-remove-account.jsp">Xóa tài khoản</a>
-                                <a href="HomeControl?COMMAND=LOGOUT">Đăng xuất</a>
+                                <a href="HomeController?COMMAND=LOGOUT">Đăng xuất</a>
 
                             </div>
                         </div>

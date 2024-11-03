@@ -13,21 +13,55 @@ import java.util.Date;
 public class PostModel {
 
     private int postId;
+    private boolean isFavorite;
+    private int userId;
     private String postTitle;
     private String postContent;
-    private Date createdAt;
     private String postImg;
+    private String author;
+    private String tempContent;
 
     public PostModel() {
     }
 
-    public PostModel(int postId, String postTitle, String postContent, Date createdAt, String postImg) {
+    public PostModel(int postId, int userId, String postTitle, String postContent, String postImg) {
         this.postId = postId;
+        this.userId = userId;
         this.postTitle = postTitle;
         this.postContent = postContent;
-        this.createdAt = createdAt;
         this.postImg = postImg;
     }
+
+    public PostModel(int postId, boolean isFavorite, int userId, String postTitle, String postContent, String postImg) {
+        this.postId = postId;
+        this.isFavorite = isFavorite;
+        this.userId = userId;
+        this.postTitle = postTitle;
+        this.postContent = postContent;
+        this.postImg = postImg;
+    }
+
+    public PostModel(int postId, boolean isFavorite, int userId, String postTitle, String postContent, String postImg, String author) {
+        this.postId = postId;
+        this.isFavorite = isFavorite;
+        this.userId = userId;
+        this.postTitle = postTitle;
+        this.postContent = postContent;
+        this.postImg = postImg;
+        this.author = author;
+    }
+
+    public String getTempContent() {
+        return this.postContent != null && this.postContent.length() > 30? this.postContent.substring(0,30)+"...":this.postContent+"...";
+    }
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
 
     public int getPostId() {
         return postId;
@@ -35,6 +69,22 @@ public class PostModel {
 
     public void setPostId(int postId) {
         this.postId = postId;
+    }
+
+    public boolean getIsFavorite() {
+        return isFavorite;
+    }
+
+    public void setIsFavorite(boolean isFavorite) {
+        this.isFavorite = isFavorite;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public String getPostTitle() {
@@ -53,14 +103,6 @@ public class PostModel {
         this.postContent = postContent;
     }
 
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
-
     public String getPostImg() {
         return postImg;
     }
@@ -71,7 +113,11 @@ public class PostModel {
 
     @Override
     public String toString() {
-        return "PostModel{" + "postId=" + postId + ", postTitle=" + postTitle + ", postContent=" + postContent + ", createdAt=" + createdAt + ", postImg=" + postImg + '}';
+        return "PostModel{" + "postId=" + postId + ", isFavorite=" + isFavorite + ", userId=" + userId + ", postTitle=" + postTitle + ", postContent=" + postContent + ", postImg=" + postImg + '}';
     }
+
+    
+
+   
 
 }

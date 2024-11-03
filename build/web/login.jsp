@@ -28,7 +28,7 @@
             <div class="container">
                 <div class="section-content bg-white p-5 shadow"  style="margin-left: 25%;width: 50%">
                     <div id="logreg-forms">
-                        <form class="form-signin" action="HomeControl" method="post">
+                        <form class="form-signin" action="HomeController" method="post">
                             <h1 class="h3 mb-3 font-weight-normal" style="text-align: center"> Đăng Nhập</h1>
                             <p class="text-danger">
                                 ${message}
@@ -48,7 +48,7 @@
                             <button class="btn btn-success btn-block" type="submit"><i class="fas fa-sign-in-alt"></i> Đăng nhập</button>
                             <hr>
                         </form>
-                        <form action="HomeControl" method="post" style="margin-top: -60px">
+                        <form action="HomeController" method="post" style="margin-top: -60px">
                             <input type="hidden" name="COMMAND" value="REGISTER_FORM">
                             <button class="btn btn-primary btn-block" type="submit" id="btn-signup"><i class="fas fa-user"></i> Đăng ký</button>
                         </form>

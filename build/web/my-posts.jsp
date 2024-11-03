@@ -166,7 +166,7 @@
                         <div class="col-md-12">
                             <div class="heading-section text-center">
                                 <span class="subheading">
-                                    Enjoy your journey
+                                    My Post
                                 </span>
                             </div>  
                         </div>
@@ -174,8 +174,8 @@
                     <c:if test="${!empty sessionScope.username}">
                         <form id="filterForm" action="PostController" method="GET">
                             <select name="COMMAND" id="commandSelect" onchange="submitFormWithParams()" style="margin-bottom: 10px">
-                                <option value="VIEW_FORUM">Default</option>
-                                <option value="VIEW_FORUM" data-favorite="true">My favorite</option>
+                                <option value="VIEW_MY_POSTS">Default</option>
+                                <option value="VIEW_MY_POSTS" data-favorite="true">My favorite</option>
                             </select>
                         </form>
 
@@ -231,27 +231,27 @@
                         </c:forEach>
                     </div>
                     <script>
-    function submitFormWithParams() {
-        const select = document.getElementById("commandSelect");
-        const form = document.getElementById("filterForm");
-        
-        // Remove any existing 'isFavorite' input
-        const existingInput = document.querySelector("input[name='isFavorite']");
-        if (existingInput) {
-            existingInput.remove();
-        }
+                        function submitFormWithParams() {
+                            const select = document.getElementById("commandSelect");
+                            const form = document.getElementById("filterForm");
 
-        // Add 'isFavorite=true' if selected option has 'data-favorite' attribute
-        if (select.selectedOptions[0].dataset.favorite) {
-            const isFavoriteInput = document.createElement("input");
-            isFavoriteInput.type = "hidden";
-            isFavoriteInput.name = "isFavorite";
-            isFavoriteInput.value = "true";
-            form.appendChild(isFavoriteInput);
-        }
-        
-        form.submit();
-    }
-</script>
+                            // Remove any existing 'isFavorite' input
+                            const existingInput = document.querySelector("input[name='isFavorite']");
+                            if (existingInput) {
+                                existingInput.remove();
+                            }
+
+                            // Add 'isFavorite=true' if selected option has 'data-favorite' attribute
+                            if (select.selectedOptions[0].dataset.favorite) {
+                                const isFavoriteInput = document.createElement("input");
+                                isFavoriteInput.type = "hidden";
+                                isFavoriteInput.name = "isFavorite";
+                                isFavoriteInput.value = "true";
+                                form.appendChild(isFavoriteInput);
+                            }
+
+                            form.submit();
+                        }
+                    </script>
                     </body>
                     </html>

@@ -26,7 +26,7 @@
             <div class="container">
                 <div class="section-content bg-white p-5 shadow"  style="margin-left: 25%;width: 50%">
                     <div id="logreg-forms">
-                        <form action="HomeControl" method="post">
+                        <form action="HomeController" method="post">
                             <h1 class="h3 mb-3 font-weight-normal" style="text-align: center"> Đăng ký</h1>
                             <input name="fullname" type="text" class="form-control" placeholder="Họ và tên" required="" autofocus="">
                             <input name="username" type="text" class="form-control" placeholder="Tên đăng nhập" required="" autofocus="">

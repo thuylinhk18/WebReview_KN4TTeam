@@ -25,7 +25,7 @@
                 <div class="card mb-4">
                     <div class="card-header">Đổi mật khẩu</div>
                     <div class="card-body">
-                        <form action="HomeControl?COMMAND=CHANGE_PASSWORD" method="post">
+                        <form action="HomeController?COMMAND=CHANGE_PASSWORD" method="post">
                             <!-- Form Group (username)-->
                             <div class="mb-3">
                                 <input class="form-control" type="password" placeholder="Mật khẩu cũ" name="oldPass">

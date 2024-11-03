@@ -94,7 +94,7 @@ public class UserDAO {
 
         DBContext db = DBContext.getInstance();
         String sql = "select * from Users  where email = ?";
-         if (currentUsername != null) {
+        if (currentUsername != null) {
             sql = "select * from Users where email = ? and userName <> ?";
         }
         try (Connection con = db.openConnection(); PreparedStatement statement = con.prepareStatement(sql);) {
@@ -154,15 +154,30 @@ public class UserDAO {
         }
 
     }
-      public void changePassword(String currentUser, String newPass) {
+
+    public void saveUserAvt(String imgPath, String currentUser) {
+        String sql = "UPDATE Users SET avt = ? WHERE username = ? ";
+        DBContext db = DBContext.getInstance();
+        try (Connection con = db.openConnection(); PreparedStatement statement = con.prepareStatement(sql)) {
+
+            statement.setString(1, imgPath);
+            statement.setString(2, currentUser);
+
+            statement.executeUpdate();
+        } catch (Exception ex) {
+            LOGGER.log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void changePassword(String currentUser, String newPass) {
         String sql = "UPDATE Users SET password=? WHERE username = ?";
         DBContext db = DBContext.getInstance();
         try (Connection con = db.openConnection(); PreparedStatement statement = con.prepareStatement(sql)) {
 
             statement.setString(1, newPass);
-            statement.setString(2, currentUser );
+            statement.setString(2, currentUser);
             statement.executeUpdate();
-            
+
         } catch (Exception ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }

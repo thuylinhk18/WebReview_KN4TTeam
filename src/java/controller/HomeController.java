@@ -6,6 +6,7 @@ package controller;
 
 import java.io.IOException;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -14,24 +15,25 @@ import jakarta.servlet.http.HttpSession;
 import java.io.PrintWriter;
 import model.UserDAO;
 import model.UserModel;
+import static util.HelperUtil.uploadFile;
+import static util.HelperUtil.getCurrentUser;
 
 /**
  *
  * @author bebet
  */
-public class HomeControl extends HttpServlet {
+@MultipartConfig(fileSizeThreshold = 1024 * 1024, maxFileSize = 1024 * 1024 * 5, maxRequestSize = 1024 * 1024 * 50)
+public class HomeController extends HttpServlet {
 
     private static final String MESSAGE_LABEL = "message";
     private static final String MESSAGE_WRONG_PASSWORD = "Mật khẩu xác nhận sai!";
     private static final String MESSAGE_EXISTED_USERNAME = "Tên đăng nhập đã tồn tại!";
     private static final String MESSAGE_EXISTED_EMAIL = "Email đã tồn tại!";
-    private static final String MESSAGE_LOGIN_SUCCESSFULLY = "Đăng ký thành công! Đăng nhập lại để tiếp tục!";
     private static final String SESSION_USERNAME = "username";
     private static final String MESSAGE_EDIT_PROFILE_SUCCESSFULLY = "Thay đổi thành công.";
     private static final String MESSAGE_PASSWORD_NOT_MATCHING = "Xác nhận mật khẩu sai";
     private static final String MESSAGE_REGISTER_SUCCESSFULLY = "Đăng ký thành công! Đăng nhập lại để tiếp tục!";
     private static final String MESSAGE_CHANGE_PASSWORD_SUCCESSFULLY = "Đổi mật khẩu thành công. Đăng nhập lại để tiếp tục!";
-    private static final String MESSAGE_REMOVE_ACCOUNT_SUCCESSFULLY = "Xóa tài khoản thành công!";
 
     private UserDAO dao = new UserDAO();
 
@@ -123,6 +125,10 @@ public class HomeControl extends HttpServlet {
             }
             case "REMOVE_ACCOUNT" -> {
                 removeAccount(request, response);
+                break;
+            }
+            case "CHANGE_AVT" -> {
+                changeAvt(request, response);
                 break;
             }
         }
@@ -255,13 +261,6 @@ public class HomeControl extends HttpServlet {
         request.getRequestDispatcher("profile.jsp").forward(request, response);
     }
 
-    private String getCurrentUser(HttpServletRequest request)
-            throws ServletException, IOException {
-        HttpSession session = request.getSession(false);
-        String username = (String) session.getAttribute(SESSION_USERNAME);
-        return username;
-    }
-
     private void changePassword(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String oldPass = request.getParameter("oldPass");
@@ -280,6 +279,15 @@ public class HomeControl extends HttpServlet {
 
         request.getRequestDispatcher("change-password.jsp").forward(request, response);
         logout(request, response);
+    }
+
+    private void changeAvt(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String imgPath = uploadFile(request,getServletContext().getRealPath(""));
+        dao.saveUserAvt(imgPath, getCurrentUser(request));
+        UserModel user = dao.getUserByUsername(getCurrentUser(request));
+        request.setAttribute("user", user);
+        request.getRequestDispatcher("profile.jsp").forward(request, response);
     }
 
     /**

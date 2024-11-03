@@ -56,7 +56,7 @@
         <!-- End of Welcome Section -->		<footer class="mastfoot pb-5 bg-white section-padding pb-0">
             <div class="col-lg-4">
                 <div class="footer-widget pl-lg-5 pl-0">
-                    <form action="HomeControl" method="post">
+                    <form action="HomeController" method="post">
                         <button type="submit" class="btn btn-primary w-100" style="margin-left: 170%; margin-top: -40px" >Tham gia ngay!</button>
                         <input type="hidden" name="COMMAND" value="JOIN">
                     </form>

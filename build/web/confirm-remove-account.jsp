@@ -27,7 +27,7 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-xl-6">
-                                <form action="HomeControl?COMMAND=REMOVE_ACCOUNT" method="post">
+                                <form action="HomeController?COMMAND=REMOVE_ACCOUNT" method="post">
                                     <button class="btn btn-primary " type="submit" style="width: 40%;margin-left: 60%">Có</button>
                                 </form>
                             </div>

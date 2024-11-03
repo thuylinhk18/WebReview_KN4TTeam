@@ -10,7 +10,7 @@
         Resto by GetTemplates.co
         URL: https://gettemplates.co
 -->
-<html lang="en">
+<html>
 
     <head>
 
@@ -19,6 +19,15 @@
         <title>WanderWise</title>
         <meta name="description" content="WanderWise">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <style>
+            p.small {
+                font-size: 10px;
+                text-align: left;
+                padding-top: 8px;
+                padding-left: 4.2rem;
+                margin: 0px !important;
+            }
+        </style>
     </head>
     <body>
         <jsp:include page="navbar.jsp" />	
@@ -32,7 +41,7 @@
                             Bài đăng của bạn
                         </h2>
                     </div>
-                    <form method="post" name="post-publishing" action="post">
+                    <form action="PostController?COMMAND=CREATE_POST" method="post" enctype="multipart/form-data" >
                         <div class="row">
                             <div class="col-md-12 form-group">
                                 <input type="text" class="form-control" name="title" placeholder="Tiêu đề">
@@ -40,16 +49,31 @@
                             <div class="col-md-12 form-group">
                                 <textarea class="form-control" name="content" rows="10" placeholder="Nội dung"></textarea>
                             </div>
-                            <h3 style="color: red">${requestScope.message}</h3>
+                             <div>
+                                <input type="file" name="image" accept="image/*" onchange="validateFileSize()">
+                                <p class="small font-italic text-muted mb-4">Hình ảnh không lớn hơn 5 MB</p>
+                            </div>
                             <div class="col-md-12 form-group"> 
                                 <button class=" btn btn-shadow btn-lg" type="submit" style="margin-left: 38%;background-color: #f34949;color: white">Đăng bài</button>
-                                <input type="hidden" name="COMMAND" value="POST">
                             </div>
                         </div>
                     </form>
                 </div>
             </div>
         </section>
+    <script>
+        const MAX_FILE_SIZE = 5 * 1024 * 1024; // 2 MB
+
+        function validateFileSize() {
+            const fileInput = document.getElementById("image");
+            const file = fileInput.files[0];
+
+            if (file && file.size > MAX_FILE_SIZE) {
+                alert("File is too large. Maximum size is 2MB.");
+                fileInput.value = ""; // Clear the file input
+            }
+        }
+    </script>
     </body>
 </html>
 

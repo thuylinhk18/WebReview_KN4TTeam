@@ -18,6 +18,9 @@
         <title>WanderWise</title>
         <meta name="description" content="WanderWise">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha384-DyZ88mC6Up2uqSg9leZI7FE7fd6E94z9RxbyZxl0/Zt3wxqFf5p54XXeByF3io8/+" crossorigin="anonymous">
+
         <style>
             * {
                 box-sizing: border-box;
@@ -69,6 +72,21 @@
                 border-radius: 5px;
                 transition: transform 0.2s, box-shadow 0.2s;
             }
+            .card {
+                position: relative;
+                display: -ms-flexbox;
+                display: flex;
+                -ms-flex-direction: column;
+                flex-direction: column;
+                min-width: 0;
+                word-wrap: break-word;
+                background-color: #fff;
+                background-clip: border-box;
+                border: 1px solid rgba(0, 0, 0, .125);
+                border-radius: .25rem;
+                min-height: 12rem;
+            }
+
             .card:hover {
                 transform: translateY(-5px);
                 box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
@@ -114,6 +132,28 @@
                 margin-left: auto;
                 font-weight: bold;
             }
+            .card-action-button{
+                display: flex;
+                justify-content: flex-end;
+                padding-top: 10px;
+                position: absolute;
+                bottom: 5px;
+                right: 20px;
+            }
+
+            .card-action-button i.fa-trash-alt {
+                color: #f34949;
+            }
+            .card-action-button a {
+                margin-left: 8px;
+                color: #007bff;
+            }
+            .card-action-button i.marked{
+                color: #e67e22 !important;
+            }
+            .card-action-button i.fa-bookmark{
+                color:#aeb6bf;
+            }
         </style>
     </head>
     <body>
@@ -126,17 +166,24 @@
                         <div class="col-md-12">
                             <div class="heading-section text-center">
                                 <span class="subheading">
-                                    Specialties
+                                    Enjoy your journey
                                 </span>
-                                <h2>
-                                    Our Menu
-                                </h2>
                             </div>  
                         </div>
                     </div>
+                    <c:if test="${!empty sessionScope.username}">
+                        <form id="filterForm" action="PostController" method="GET">
+                            <select name="COMMAND" id="commandSelect" onchange="submitFormWithParams()" style="margin-bottom: 10px">
+                                <option value="VIEW_FORUM">Default</option>
+                                <option value="VIEW_FORUM" data-favorite="true">My favorite</option>
+                            </select>
+                        </form>
+
+                    </c:if>
                     <div class="row">
+
                         <c:forEach var="post" items="${postList}">
-                            <div class="column-3">
+                            <div class="column-3 mb-2">
                                 <div class="card">
                                     <div class="row">
                                         <div class="column-2-3">
@@ -154,15 +201,57 @@
                                             </a>
                                             <div class="card-content">
                                                 <span class="text-container">
-                                                    Lorem ipsum dolor sit amet, consectetur...
+                                                    ${post.tempContent}
                                                 </span>
                                                 <a href="javascript:void(0);">Read more</a>
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="card-action-button">
+
+
+                                        <c:if test="${sessionScope.username == post.author}">
+                                            <a href="PostController?COMMAND=MARK_POST&postId=${post.postId}&isFavorite=${post.isFavorite}">
+                                                <c:choose>
+                                                    <c:when test="${post.isFavorite}">
+                                                        <i class="marked fa-solid fa-bookmark ml-1"></i>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <i class="fa-solid fa-bookmark ml-1"></i>
+                                                    </c:otherwise>
+                                                </c:choose>
+                                            </a>
+
+                                            <a href="PostController?COMMAND=VIEW_POST_TO_UPDATE&postId=${post.postId}"> <i class="fas fa-edit ml-1"></i></a>
+                                            <a href="PostController?COMMAND=REMOVE_POST&postId=${post.postId}"> <i class="fas fa-trash-alt ml-1"></i></a>
+                                            </c:if>
+                                    </div>
                                 </div>
                             </div>
                         </c:forEach>
                     </div>
+                    <script>
+    function submitFormWithParams() {
+        const select = document.getElementById("commandSelect");
+        const form = document.getElementById("filterForm");
+        
+        // Remove any existing 'isFavorite' input
+        const existingInput = document.querySelector("input[name='isFavorite']");
+        if (existingInput) {
+            existingInput.remove();
+        }
+
+        // Add 'isFavorite=true' if selected option has 'data-favorite' attribute
+        if (select.selectedOptions[0].dataset.favorite) {
+            const isFavoriteInput = document.createElement("input");
+            isFavoriteInput.type = "hidden";
+            isFavoriteInput.name = "isFavorite";
+            isFavoriteInput.value = "true";
+            form.appendChild(isFavoriteInput);
+        }
+        
+        form.submit();
+    }
+</script>
                     </body>
                     </html>
