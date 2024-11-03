@@ -11,6 +11,7 @@ import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 import model.PostDAO;
@@ -79,8 +80,12 @@ public class PostController extends HttpServlet {
                 removePost(request, response);
                 break;
             }
-            case "MARK_POST" -> {
-                markPost(request, response);
+            case "MARK_POST_IN_FORUM_PAGE" -> {
+                markPostInForumPage(request, response);
+                break;
+            }
+            case "MARK_POST_IN_MY_PAGE" -> {
+                markPostInMyPostPage(request, response);
                 break;
             }
 
@@ -122,7 +127,7 @@ public class PostController extends HttpServlet {
     protected void viewForum(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String favoriteView = (String) request.getParameter("isFavorite");
-        if(favoriteView != null) {
+        if (favoriteView != null) {
             favoriteView = " where p.isFavorite = 1 ";
         } else {
             favoriteView = "";
@@ -148,12 +153,12 @@ public class PostController extends HttpServlet {
             throws ServletException, IOException {
         String title = request.getParameter("title");
         String content = request.getParameter("content");
-        String image = uploadFile(request,getServletContext().getRealPath(""));
+        String image = uploadFile(request, getServletContext().getRealPath(""));
         dao.addPost(getCurrentUser(request), title, content, image);
         viewForum(request, response);
     }
 
-    protected void markPost(HttpServletRequest request, HttpServletResponse response)
+    protected void markPostInForumPage(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
         int postId = Integer.parseInt(request.getParameter("postId"));
@@ -163,6 +168,24 @@ public class PostController extends HttpServlet {
         List<PostModel> latestPosts = dao.getAllPosts("");
         request.setAttribute("postList", latestPosts);
         request.getRequestDispatcher("forum.jsp").forward(request, response);
+    }
+
+    protected void markPostInMyPostPage(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        int postId = Integer.parseInt(request.getParameter("postId"));
+        boolean isCurrentFavorite = Boolean.parseBoolean(request.getParameter("isFavorite"));
+        dao.markFavoritePost(postId, getCurrentUser(request), isCurrentFavorite);
+        //get latest posts
+        List<PostModel> myLatestPosts = new ArrayList<>();
+        
+        for (PostModel post : dao.getAllPosts("")) {
+            if(post.getAuthor().equals(getCurrentUser(request))){
+                myLatestPosts.add(post);
+            }
+        }
+        request.setAttribute("postList", myLatestPosts);
+        request.getRequestDispatcher("my-posts.jsp").forward(request, response);
     }
 
     protected void removePost(HttpServletRequest request, HttpServletResponse response)
@@ -177,7 +200,7 @@ public class PostController extends HttpServlet {
         int postId = Integer.parseInt(request.getParameter("postId"));
         String newTitle = request.getParameter("title");
         String newContent = request.getParameter("content");
-        String newImage = uploadFile(request,getServletContext().getRealPath(""));
+        String newImage = uploadFile(request, getServletContext().getRealPath(""));
         dao.updatePost(newTitle, newContent, newImage, postId);
         viewForum(request, response);
     }
@@ -185,17 +208,15 @@ public class PostController extends HttpServlet {
     protected void viewMyPosts(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String favoriteView = (String) request.getParameter("isFavorite");
-        if(favoriteView != null) {
+        if (favoriteView != null) {
             favoriteView = " and p.isFavorite = 1 ";
-        }else {
+        } else {
             favoriteView = "";
         }
-        List<PostModel> postList = dao.getMyPosts(getCurrentUser(request),favoriteView);
+        List<PostModel> postList = dao.getMyPosts(getCurrentUser(request), favoriteView);
         request.setAttribute("postList", postList);
         request.getRequestDispatcher("my-posts.jsp").forward(request, response);
     }
-
-    
 
     /**
      * Returns a short description of the servlet.

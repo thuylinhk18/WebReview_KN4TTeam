@@ -211,7 +211,7 @@
 
 
                                         <c:if test="${sessionScope.username == post.author}">
-                                            <a href="PostController?COMMAND=MARK_POST&postId=${post.postId}&isFavorite=${post.isFavorite}">
+                                            <a href="PostController?COMMAND=MARK_POST_IN_FORUM_PAGE&postId=${post.postId}&isFavorite=${post.isFavorite}">
                                                 <c:choose>
                                                     <c:when test="${post.isFavorite}">
                                                         <i class="marked fa-solid fa-bookmark ml-1"></i>
@@ -231,27 +231,27 @@
                         </c:forEach>
                     </div>
                     <script>
-    function submitFormWithParams() {
-        const select = document.getElementById("commandSelect");
-        const form = document.getElementById("filterForm");
-        
-        // Remove any existing 'isFavorite' input
-        const existingInput = document.querySelector("input[name='isFavorite']");
-        if (existingInput) {
-            existingInput.remove();
-        }
+                        function submitFormWithParams() {
+                            const select = document.getElementById("commandSelect");
+                            const form = document.getElementById("filterForm");
 
-        // Add 'isFavorite=true' if selected option has 'data-favorite' attribute
-        if (select.selectedOptions[0].dataset.favorite) {
-            const isFavoriteInput = document.createElement("input");
-            isFavoriteInput.type = "hidden";
-            isFavoriteInput.name = "isFavorite";
-            isFavoriteInput.value = "true";
-            form.appendChild(isFavoriteInput);
-        }
-        
-        form.submit();
-    }
-</script>
+                            // Remove any existing 'isFavorite' input
+                            const existingInput = document.querySelector("input[name='isFavorite']");
+                            if (existingInput) {
+                                existingInput.remove();
+                            }
+
+                            // Add 'isFavorite=true' if selected option has 'data-favorite' attribute
+                            if (select.selectedOptions[0].dataset.favorite) {
+                                const isFavoriteInput = document.createElement("input");
+                                isFavoriteInput.type = "hidden";
+                                isFavoriteInput.name = "isFavorite";
+                                isFavoriteInput.value = "true";
+                                form.appendChild(isFavoriteInput);
+                            }
+
+                            form.submit();
+                        }
+                    </script>
                     </body>
                     </html>

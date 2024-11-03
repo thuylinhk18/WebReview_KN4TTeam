@@ -171,15 +171,6 @@
                             </div>  
                         </div>
                     </div>
-                    <c:if test="${!empty sessionScope.username}">
-                        <form id="filterForm" action="PostController" method="GET">
-                            <select name="COMMAND" id="commandSelect" onchange="submitFormWithParams()" style="margin-bottom: 10px">
-                                <option value="VIEW_MY_POSTS">Default</option>
-                                <option value="VIEW_MY_POSTS" data-favorite="true">My favorite</option>
-                            </select>
-                        </form>
-
-                    </c:if>
                     <div class="row">
 
                         <c:forEach var="post" items="${postList}">
@@ -211,7 +202,7 @@
 
 
                                         <c:if test="${sessionScope.username == post.author}">
-                                            <a href="PostController?COMMAND=MARK_POST&postId=${post.postId}&isFavorite=${post.isFavorite}">
+                                            <a href="PostController?COMMAND=MARK_POST_IN_MY_PAGE&postId=${post.postId}&isFavorite=${post.isFavorite}">
                                                 <c:choose>
                                                     <c:when test="${post.isFavorite}">
                                                         <i class="marked fa-solid fa-bookmark ml-1"></i>
@@ -222,9 +213,10 @@
                                                 </c:choose>
                                             </a>
 
-                                            <a href="PostController?COMMAND=VIEW_POST_TO_UPDATE&postId=${post.postId}"> <i class="fas fa-edit ml-1"></i></a>
-                                            <a href="PostController?COMMAND=REMOVE_POST&postId=${post.postId}"> <i class="fas fa-trash-alt ml-1"></i></a>
-                                            </c:if>
+                                            <a href="PostController?COMMAND=VIEW_POST_TO_UPDATE&postId=${post.postId}"><i class="fas fa-edit ml-1"></i></a>
+                                            <a href="PostController?COMMAND=REMOVE_POST&postId=${post.postId}"><i class="fas fa-trash-alt ml-1"></i></a>
+                                         </c:if>
+                                            
                                     </div>
                                 </div>
                             </div>
