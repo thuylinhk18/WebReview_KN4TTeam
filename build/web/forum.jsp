@@ -178,10 +178,8 @@
                                 <option value="VIEW_FORUM" data-favorite="true">My favorite</option>
                             </select>
                         </form>
-
                     </c:if>
                     <div class="row">
-
                         <c:forEach var="post" items="${postList}">
                             <div class="column-3 mb-2">
                                 <div class="card">
@@ -209,7 +207,6 @@
                                     </div>
                                     <div class="card-action-button">
 
-
                                         <c:if test="${sessionScope.username == post.author}">
                                             <a href="PostController?COMMAND=MARK_POST_IN_FORUM_PAGE&postId=${post.postId}&isFavorite=${post.isFavorite}">
                                                 <c:choose>
@@ -224,7 +221,7 @@
 
                                             <a href="PostController?COMMAND=VIEW_POST_TO_UPDATE&postId=${post.postId}"> <i class="fas fa-edit ml-1"></i></a>
                                             <a href="PostController?COMMAND=REMOVE_POST&postId=${post.postId}"> <i class="fas fa-trash-alt ml-1"></i></a>
-                                            </c:if>
+                                        </c:if>
                                     </div>
                                 </div>
                             </div>

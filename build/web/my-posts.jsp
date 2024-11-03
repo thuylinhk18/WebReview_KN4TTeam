@@ -200,8 +200,8 @@
                                     </div>
                                     <div class="card-action-button">
 
-
                                         <c:if test="${sessionScope.username == post.author}">
+
                                             <a href="PostController?COMMAND=MARK_POST_IN_MY_PAGE&postId=${post.postId}&isFavorite=${post.isFavorite}">
                                                 <c:choose>
                                                     <c:when test="${post.isFavorite}">
@@ -212,11 +212,10 @@
                                                     </c:otherwise>
                                                 </c:choose>
                                             </a>
-
                                             <a href="PostController?COMMAND=VIEW_POST_TO_UPDATE&postId=${post.postId}"><i class="fas fa-edit ml-1"></i></a>
                                             <a href="PostController?COMMAND=REMOVE_POST&postId=${post.postId}"><i class="fas fa-trash-alt ml-1"></i></a>
-                                         </c:if>
-                                            
+                                        </c:if>
+
                                     </div>
                                 </div>
                             </div>

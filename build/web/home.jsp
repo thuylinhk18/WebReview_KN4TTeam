@@ -41,11 +41,6 @@
                                 <h4><b>Các cuộc thảo luận sôi nổi</b></h4>
                                 <h4><b>& Tìm kiếm nhanh chóng</b></h4>
                                 <br/>
-
-
-
-
-
                                 <h4>        ...tất cả đều có tại WanderWise</h4>
                             </div> 
                         </div>

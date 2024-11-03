@@ -33,7 +33,7 @@ public class PostDAO {
             ResultSet result = statement.executeQuery();
             while (result.next()) {
                 postList.add(new PostModel(result.getInt(1),
-                        result.getInt(2) == 1 ? true:false,
+                        result.getInt(2) == 1 ? true : false,
                         result.getInt(3),
                         result.getString(4),
                         result.getString(5),
@@ -178,7 +178,7 @@ public class PostDAO {
 
             while (result.next()) {
                 postList.add(new PostModel(result.getInt(1),
-                        result.getInt(2) == 1 ? true:false,
+                        result.getInt(2) == 1 ? true : false,
                         result.getInt(3),
                         result.getString(4),
                         result.getString(5),

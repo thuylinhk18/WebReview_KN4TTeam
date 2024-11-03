@@ -176,11 +176,11 @@ public class PostController extends HttpServlet {
         int postId = Integer.parseInt(request.getParameter("postId"));
         boolean isCurrentFavorite = Boolean.parseBoolean(request.getParameter("isFavorite"));
         dao.markFavoritePost(postId, getCurrentUser(request), isCurrentFavorite);
+
         //get latest posts
         List<PostModel> myLatestPosts = new ArrayList<>();
-        
         for (PostModel post : dao.getAllPosts("")) {
-            if(post.getAuthor().equals(getCurrentUser(request))){
+            if (post.getAuthor().equals(getCurrentUser(request))) {
                 myLatestPosts.add(post);
             }
         }
