@@ -270,20 +270,24 @@ public class HomeController extends HttpServlet {
 
         if (dao.checkAuth(currentUser, oldPass) == null) {
             request.setAttribute(MESSAGE_LABEL, MESSAGE_WRONG_PASSWORD);
+            request.getRequestDispatcher("change-password.jsp").forward(request, response);
+
         } else if (!newPass.equals(rePass)) {
             request.setAttribute(MESSAGE_LABEL, MESSAGE_PASSWORD_NOT_MATCHING);
+            request.getRequestDispatcher("change-password.jsp").forward(request, response);
+
         } else {
             dao.changePassword(currentUser, newPass);
             request.setAttribute(MESSAGE_LABEL, MESSAGE_CHANGE_PASSWORD_SUCCESSFULLY);
+            request.getRequestDispatcher("home.jsp").forward(request, response);
+
         }
 
-        request.getRequestDispatcher("change-password.jsp").forward(request, response);
-        logout(request, response);
     }
 
     private void changeAvt(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String imgPath = uploadFile(request,getServletContext().getRealPath(""));
+        String imgPath = uploadFile(request, getServletContext().getRealPath(""));
         dao.saveUserAvt(imgPath, getCurrentUser(request));
         UserModel user = dao.getUserByUsername(getCurrentUser(request));
         request.setAttribute("user", user);
