@@ -99,6 +99,9 @@ public class UserDAO {
         }
         try (Connection con = db.openConnection(); PreparedStatement statement = con.prepareStatement(sql);) {
             statement.setString(1, emailToCheck);
+            if (currentUsername != null) {
+                statement.setString(2, currentUsername);
+            }
             ResultSet result = statement.executeQuery();
             if (result.next()) {
                 return true;
