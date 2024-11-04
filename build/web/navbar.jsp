@@ -158,7 +158,7 @@
                     </li>
                 </c:if>
                 <li class="nav-item">
-                    <a class="nav-link" href="login.jsp">Tìm kiếm</a>
+                    <a class="nav-link" href="search.jsp">Tìm kiếm</a>
                 </li>
             </div>
             <c:choose>

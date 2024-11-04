@@ -1,5 +1,6 @@
 ﻿-- T?o c? s? d? li?u
 CREATE DATABASE travel_review_website;
+go
 
 USE travel_review_website;
 go
@@ -29,3 +30,9 @@ go
 
 select * from Posts 
 select * from Users  
+
+SELECT p.post_id, p.isFavorite, p.user_id, p.title, p.post_content, p.post_img, u.username FROM Posts p 
+join Users u on u.user_id = p.user_id 
+where p.title like '%a%'
+or p.post_content like '%a%'
+ORDER BY post_id DESC;

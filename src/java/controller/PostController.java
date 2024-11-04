@@ -76,6 +76,10 @@ public class PostController extends HttpServlet {
                 viewForum(request, response);
                 break;
             }
+            case "VIEW_FAVORITE" -> {
+                viewMyFavPosts(request, response);
+                break;
+            }
             case "REMOVE_POST" -> {
                 removePost(request, response);
                 break;
@@ -85,10 +89,9 @@ public class PostController extends HttpServlet {
                 break;
             }
             case "MARK_POST_IN_MY_PAGE" -> {
-                markPostInMyPostPage(request, response);
+                viewPostInMyPostPage(request, response);
                 break;
             }
-
             case "VIEW_POST_TO_UPDATE" -> {
                 viewPost(request, response);
                 break;
@@ -121,18 +124,22 @@ public class PostController extends HttpServlet {
                 editPost(request, response);
                 break;
             }
+            case "SEARCH" -> {
+                search(request, response);
+                break;
+            }
         }
     }
 
     protected void viewForum(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String favoriteView = (String) request.getParameter("isFavorite");
-        if (favoriteView != null) {
-            favoriteView = " where p.isFavorite = 1 ";
-        } else {
-            favoriteView = "";
-        }
-        List<PostModel> postList = dao.getAllPosts(favoriteView);
+//        String favoriteView = (String) request.getParameter("isFavorite");
+//        if (favoriteView != null) {
+//            favoriteView = " where p.isFavorite = 1 ";
+//        } else {
+//            favoriteView = "";
+//        }
+        List<PostModel> postList = dao.getAllPosts("");
         request.setAttribute("postList", postList);
         request.getRequestDispatcher("forum.jsp").forward(request, response);
     }
@@ -170,7 +177,7 @@ public class PostController extends HttpServlet {
         request.getRequestDispatcher("forum.jsp").forward(request, response);
     }
 
-    protected void markPostInMyPostPage(HttpServletRequest request, HttpServletResponse response)
+    protected void viewPostInMyPostPage(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
         int postId = Integer.parseInt(request.getParameter("postId"));
@@ -216,6 +223,29 @@ public class PostController extends HttpServlet {
         List<PostModel> postList = dao.getMyPosts(getCurrentUser(request), favoriteView);
         request.setAttribute("postList", postList);
         request.getRequestDispatcher("my-posts.jsp").forward(request, response);
+    }
+
+    protected void viewMyFavPosts(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        String favoriteView = (String) request.getParameter("isFavorite");
+        if (favoriteView != null) {
+            favoriteView = " where p.isFavorite = 1 ";
+        } else {
+            favoriteView = "";
+        }
+        List<PostModel> postList = dao.getAllPosts(favoriteView);
+        request.setAttribute("postList", postList);
+        request.getRequestDispatcher("forum.jsp").forward(request, response);
+    }
+
+    protected void search(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String keyword = request.getParameter("keyword");
+        List<PostModel> postList = dao.search(keyword);
+        request.setAttribute("postList", postList);
+        request.setAttribute("keyword", keyword);
+        request.getRequestDispatcher("search.jsp").forward(request, response);
     }
 
     /**

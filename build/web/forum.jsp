@@ -124,22 +124,17 @@
                 font-size: 1.2rem;
             }
             .card-content {
-                display: flex;
-                align-items: center;
-                margin-top: 10px;
-            }
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+    font-size: 14px;
+    justify-content: space-between;
+}
             .card-price {
                 margin-left: auto;
                 font-weight: bold;
             }
-            .card-action-button{
-                display: flex;
-                justify-content: flex-end;
-                padding-top: 10px;
-                position: absolute;
-                bottom: 5px;
-                right: 20px;
-            }
+            
 
             .card-action-button i.fa-trash-alt {
                 color: #f34949;
@@ -154,6 +149,31 @@
             .card-action-button i.fa-bookmark{
                 color:#aeb6bf;
             }
+            .card-image {
+                max-height: 4rem;
+                max-width: 4rem;
+                min-height: 4rem;
+                min-width: 4rem;
+            }
+            .card {
+                position: relative;
+                height: 30px;
+            }
+
+            .card-action-button {
+    position: absolute;
+    display: flex ;
+    justify-content: flex-end;
+    bottom: 6px;
+    right: 10px;
+}
+            div.author {
+    position: absolute;
+    left: 10px;
+    min-width: max-content;
+    font-size: 12px;
+    bottom: 10px;
+}
         </style>
     </head>
     <body>
@@ -174,8 +194,8 @@
                     <c:if test="${!empty sessionScope.username}">
                         <form id="filterForm" action="PostController" method="GET">
                             <select name="COMMAND" id="commandSelect" onchange="submitFormWithParams()" style="margin-bottom: 10px">
-                                <option value="VIEW_FORUM">Default</option>
-                                <option value="VIEW_FORUM" data-favorite="true">My favorite</option>
+                                <option value="VIEW_FORUM">Tất cả</option>
+                                <option value="VIEW_FAVORITE">Đã lưu</option>
                             </select>
                         </form>
                     </c:if>
@@ -201,29 +221,32 @@
                                                 <span class="text-container">
                                                     ${post.tempContent}
                                                 </span>
-                                                <a href="javascript:void(0);">Read more</a>
+                                                <a href="javascript:void(0);">Xem thêm</a>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="card-action-button">
+                                        <div class="author">
+                                            <span> Tác giả: ${post.author} </span>
+                                        </div>
+                                        <div class="card-action-button">
+                                            <c:if test="${sessionScope.username == post.author}">
+                                                <a href="PostController?COMMAND=MARK_POST_IN_FORUM_PAGE&postId=${post.postId}&isFavorite=${post.isFavorite}">
+                                                    <c:choose>
+                                                        <c:when test="${post.isFavorite}">
+                                                            <i class="marked fa-solid fa-bookmark ml-1"></i>
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            <i class="fa-solid fa-bookmark ml-1"></i>
+                                                        </c:otherwise>
+                                                    </c:choose>
+                                                </a>
 
-                                        <c:if test="${sessionScope.username == post.author}">
-                                            <a href="PostController?COMMAND=MARK_POST_IN_FORUM_PAGE&postId=${post.postId}&isFavorite=${post.isFavorite}">
-                                                <c:choose>
-                                                    <c:when test="${post.isFavorite}">
-                                                        <i class="marked fa-solid fa-bookmark ml-1"></i>
-                                                    </c:when>
-                                                    <c:otherwise>
-                                                        <i class="fa-solid fa-bookmark ml-1"></i>
-                                                    </c:otherwise>
-                                                </c:choose>
-                                            </a>
+                                                <a href="PostController?COMMAND=VIEW_POST_TO_UPDATE&postId=${post.postId}"> <i class="fas fa-edit ml-1"></i></a>
+                                                <a href="PostController?COMMAND=REMOVE_POST&postId=${post.postId}"> <i class="fas fa-trash-alt ml-1"></i></a>
+                                                </c:if>
+                                        </div>
 
-                                            <a href="PostController?COMMAND=VIEW_POST_TO_UPDATE&postId=${post.postId}"> <i class="fas fa-edit ml-1"></i></a>
-                                            <a href="PostController?COMMAND=REMOVE_POST&postId=${post.postId}"> <i class="fas fa-trash-alt ml-1"></i></a>
-                                        </c:if>
                                     </div>
-                                </div>
                             </div>
                         </c:forEach>
                     </div>
@@ -239,7 +262,7 @@
                             }
 
                             // Add 'isFavorite=true' if selected option has 'data-favorite' attribute
-                            if (select.selectedOptions[0].dataset.favorite) {
+                            if (select.value === "VIEW_FAVORITE") {
                                 const isFavoriteInput = document.createElement("input");
                                 isFavoriteInput.type = "hidden";
                                 isFavoriteInput.name = "isFavorite";

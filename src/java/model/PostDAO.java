@@ -114,6 +114,39 @@ public class PostDAO {
             LOGGER.log(Level.SEVERE, null, ex);
         }
     }
+
+    public List<PostModel> search(String keyword) {
+        List<PostModel> postList = new ArrayList<>();
+        String sql = "SELECT p.post_id, p.isFavorite, p.user_id, p.title, p.post_content, p.post_img, u.username  \n"
+                + "FROM Posts p  \n"
+                + "join Users u on u.user_id = p.user_id \n"
+                + "where p.title like ? \n"
+                + "or p.post_content like ? \n"
+                + "ORDER BY post_id DESC;";
+        DBContext db = DBContext.getInstance();
+        try (Connection con = db.openConnection(); PreparedStatement statement = con.prepareStatement(sql)) {
+
+            String searchKeyword = "%" + keyword + "%";
+            statement.setString(1, searchKeyword);
+            statement.setString(2, searchKeyword);
+
+            ResultSet result = statement.executeQuery();
+            while (result.next()) {
+                postList.add(new PostModel(
+                        result.getInt(1),
+                        result.getInt(2) == 1 ? true : false,
+                        result.getInt(3),
+                        result.getString(4),
+                        result.getString(5),
+                        result.getString(6),
+                        result.getString(7)
+                ));
+            }
+        } catch (Exception ex) {
+            LOGGER.log(Level.SEVERE, null, ex);
+        }
+        return postList;
+    }
 //    }
 //
 //    public boolean isFavorite(int postId, String username) {

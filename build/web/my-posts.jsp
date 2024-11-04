@@ -127,19 +127,14 @@
                 display: flex;
                 align-items: center;
                 margin-top: 10px;
+                font-size: 14px;
+                justify-content: space-between;
             }
             .card-price {
                 margin-left: auto;
                 font-weight: bold;
             }
-            .card-action-button{
-                display: flex;
-                justify-content: flex-end;
-                padding-top: 10px;
-                position: absolute;
-                bottom: 5px;
-                right: 20px;
-            }
+
 
             .card-action-button i.fa-trash-alt {
                 color: #f34949;
@@ -153,6 +148,31 @@
             }
             .card-action-button i.fa-bookmark{
                 color:#aeb6bf;
+            }
+            .card-image {
+                max-height: 4rem;
+                max-width: 4rem;
+                min-height: 4rem;
+                min-width: 4rem;
+            }
+            .card {
+                position: relative;
+                height: 30px;
+            }
+
+            .card-action-button {
+                position: absolute;
+                display: flex ;
+                justify-content: flex-end;
+                bottom: 6px;
+                right: 10px;
+            }
+            div.author {
+                position: absolute;
+                left: 10px;
+                min-width: max-content;
+                font-size: 12px;
+                bottom: 10px;
             }
         </style>
     </head>
@@ -172,7 +192,6 @@
                         </div>
                     </div>
                     <div class="row">
-
                         <c:forEach var="post" items="${postList}">
                             <div class="column-3 mb-2">
                                 <div class="card">
@@ -198,6 +217,9 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="author">
+                                        <span> Tác giả: ${post.author} </span>
+                                    </div>
                                     <div class="card-action-button">
 
                                         <c:if test="${sessionScope.username == post.author}">
@@ -214,35 +236,12 @@
                                             </a>
                                             <a href="PostController?COMMAND=VIEW_POST_TO_UPDATE&postId=${post.postId}"><i class="fas fa-edit ml-1"></i></a>
                                             <a href="PostController?COMMAND=REMOVE_POST&postId=${post.postId}"><i class="fas fa-trash-alt ml-1"></i></a>
-                                        </c:if>
+                                            </c:if>
 
                                     </div>
                                 </div>
                             </div>
                         </c:forEach>
                     </div>
-                    <script>
-                        function submitFormWithParams() {
-                            const select = document.getElementById("commandSelect");
-                            const form = document.getElementById("filterForm");
-
-                            // Remove any existing 'isFavorite' input
-                            const existingInput = document.querySelector("input[name='isFavorite']");
-                            if (existingInput) {
-                                existingInput.remove();
-                            }
-
-                            // Add 'isFavorite=true' if selected option has 'data-favorite' attribute
-                            if (select.selectedOptions[0].dataset.favorite) {
-                                const isFavoriteInput = document.createElement("input");
-                                isFavoriteInput.type = "hidden";
-                                isFavoriteInput.name = "isFavorite";
-                                isFavoriteInput.value = "true";
-                                form.appendChild(isFavoriteInput);
-                            }
-
-                            form.submit();
-                        }
-                    </script>
                     </body>
                     </html>
