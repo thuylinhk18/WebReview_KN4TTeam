@@ -57,7 +57,6 @@
                             <li><i class="fas fa-user"></i><b> Lê Long Phú</b></li>
                             <li><i class="fas fa-user"></i><b> Nguyễn Trần Trung Kiên</b></li>
                             <li><i class="fas fa-user"></i><b> Võ Trường Giang</b></li>
-                            <li><i class="fas fa-user"></i><b> Phạm Văn Bảo</b></li>
                         </ul>
                     </div>
 
